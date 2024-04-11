@@ -24,15 +24,16 @@ export const authOptions = {
                 }
 
 
-              
-
+                
                 // check if use exist or registered
                 const user = await prisma.userInfo.findFirst({
                     where:{
                         email:credentials.email,
-        
                     }
                 })
+
+
+                console.log(user);
 
                 //check if admin or not
 

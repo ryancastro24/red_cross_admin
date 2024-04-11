@@ -63,14 +63,14 @@ const RegisterForm = ({userData,setUserData,loading,setLoading,update,setUpdate}
   return (
     <>
         
-        <form onSubmit={handleSubmit} className='border-[0.5px] h-full justify-center items-center w-full rounded border-black border-opacity-30 p-5 flex flex-col gap-6 ' action="">
-             <h2 className='text-xl font-bold'>Enroll Trainee</h2>
+        <form onSubmit={handleSubmit} className='border-[0.5px] h-full justify-center bg-[#211e1e] items-center w-full rounded border-black border-opacity-30 p-5 flex flex-col gap-6 ' action="">
+             <h2 className='text-xl font-bold text-white'>Enroll Trainee</h2>
             <input value={userData?.name} onChange={(e) => setUserData({...userData,name:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="text" placeholder='Enter Name' />
             <input value={userData?.email} onChange={(e) => setUserData({...userData,email:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="email" placeholder='Enter Email' />
          { !update &&  <input value={userData?.password} onChange={(e) => setUserData({...userData,password:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="password" placeholder='Enter Password' /> }
             <input value={userData?.address} onChange={(e) => setUserData({...userData,address:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="text" placeholder='Enter Address' />
             <input value={userData?.contact} onChange={(e) => setUserData({...userData,contact:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number' />
-            <button onClick={() => setLoading(true)} className='w-full py-3 px-3 rounded bg-[#B00909] text-white'>{ update ? "update" : loading ? "Adding Trainee..." :"Add Trainee"}</button>
+            <button onClick={() => setLoading(true)} className='w-full py-3 px-3 rounded bg-[#ff0000] hover:bg-[#a82424] text-white'>{ update ? "update" : loading ? "Adding Trainee..." :"Add Trainee"}</button>
          {update  &&  <button type='button' onClick={() => {
                 setUpdate(false);
                 setUserData({

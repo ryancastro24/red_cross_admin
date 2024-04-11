@@ -1,26 +1,33 @@
 'use client'
-import React from 'react'
+
+
+
 import Image from 'next/image'
 import { useState } from 'react'
 import {signIn} from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+
+
 const LoginForm = () => {
 
     const [userData, setUserData] = useState({
         email:"",
         password:""
-
     })
 
     const [loading,setLoading] = useState(false);
+
+
     const router  = useRouter();
 
 
-    const handleLogin = (e) => {
-        e.preventDefault();
 
-      
-            e.preventDefault();
+    
+
+    const handleLogin = (e) => {
+
+        e.preventDefault(); //avoid or restrict browser to reload
+
             signIn('credentials', {...userData, redirect:false})
             .then((callback)=> {
               if(callback?.error){
@@ -39,11 +46,13 @@ const LoginForm = () => {
                 
               }
             });
-        
 
         
     }
 
+
+
+    console.log(userData);
 
 
 
@@ -53,7 +62,7 @@ const LoginForm = () => {
         <div className='w-full flex flex-col justify-center items-center gap-3'>
             <Image src={'/assets/logo.png'} width={100} height={100} alt='logo' />
             
-            <h2 className='text-xl font-bold text-black'>Red Cross Butuan</h2>
+            <h2 className='text-xl font-bold text-black'>Red Cross Cavite</h2>
         </div>
 
 
@@ -61,12 +70,12 @@ const LoginForm = () => {
 
             <div className='w-full gap-1 flex flex-col'>
                 <label className='text-black text-sm' htmlFor="email">Email</label>
-                <input value={userData.email} onChange={(e) => setUserData({...userData,email:e.target.value})} id='email' type="email" placeholder='Enter Email' className='text-black px-3 border border-[0.2] border-opacity-30 rounded border-black py-2 w-full'/>
+                <input required value={userData.email} onChange={(e) => setUserData({...userData, email:e.target.value})} id='email' type="email" placeholder='Enter Email' className='text-black px-3 border border-[0.2] border-opacity-30 rounded border-black py-2 w-full'/>
             </div>
 
             <div className='w-full gap-1 flex flex-col'>
                 <label className='text-black text-sm' htmlFor="password">Password</label>
-                <input value={userData.password} onChange={(e) => setUserData({...userData,password:e.target.value})} id='password' type="password" placeholder='Enter Password' className='text-black px-3 py-2 w-full border border-[0.2] border-opacity-30 rounded border-black'/>
+                <input required value={userData.password} onChange={(e) => setUserData({...userData,password:e.target.value})} id='password' type="password" placeholder='Enter Password' className='text-black px-3 py-2 w-full border border-[0.2] border-opacity-30 rounded border-black'/>
             </div>
 
 
