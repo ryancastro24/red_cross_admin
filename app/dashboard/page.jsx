@@ -85,9 +85,19 @@ const Dashboard = () => {
     }, [updateId, setUserData]); // assuming updateId is a dependency
     
 
-    
 
-    const finalUsers = users.filter(val => val.name.toLowerCase().startsWith(searchData.toLowerCase()));
+    const notAdminUsers = users.filter(val => val.userType !== "admin");
+
+
+
+    const finalUsers =  notAdminUsers.filter(val => {
+        const lowercaseSearch = searchData.toLowerCase();
+        // Check if the name or any other data fields contain the search query
+        return Object.values(val).some(field =>
+            typeof field === 'string' && field.toLowerCase().includes(lowercaseSearch)
+        );
+    }); 
+
 
 
 
@@ -102,7 +112,7 @@ const Dashboard = () => {
             <div className='flex items-center gap-2'>
 
                 <div className='bg-white rounded-full'>
-                <Image src={"/assets/logo.png"} width={50} height={50} alt='logo' />
+                    <Image src={"/assets/logo.png"} width={50} height={50} alt='logo' />
                 </div>
 
                 <div className='flex flex-col'>
