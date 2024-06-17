@@ -6,6 +6,8 @@ import RegisterForm from '@/components/RegisterForm'
 import DataTable from '@/components/DataTable'
 import axios from 'axios'
 import { useSession, signOut} from 'next-auth/react'
+import Link from 'next/link'
+import { RiUploadCloud2Fill } from "react-icons/ri";
 
 
 
@@ -16,8 +18,7 @@ const Dashboard = () => {
 
 
     const [searchData,setSearchData] = useState('');
-
-
+    const [unlockCertificate,setUnlockCertificate] = useState(false);
     const [userData,setUserData] = useState({
         name:"",
         email:"",
@@ -40,6 +41,17 @@ const Dashboard = () => {
         await axios.delete(`/api/user/${id}`)
                     .then(() => {
                         alert("data has beeen deleted!")
+                    })
+                    .catch((e) => alert(e.message))
+      
+    }
+
+
+    const handleUnlockCertificate = async(id) => {
+
+        await axios.patch(`/api/certificate/${id}`)
+                    .then(() => {
+                        alert("user certificate has been unlock!")
                     })
                     .catch((e) => alert(e.message))
       
@@ -109,17 +121,29 @@ const Dashboard = () => {
 
             <div className='w-1/3 h-full flex flex-col gap-5  p-3  '>
 
-            <div className='flex items-center gap-2'>
+            {/* <div className='flex items-center justify-between gap-2'>
 
-                <div className='bg-white rounded-full'>
-                    <Image src={"/assets/logo.png"} width={50} height={50} alt='logo' />
+
+
+
+                <div className='flex items-center gap-2'>
+                    <div className='bg-white rounded-full'>
+                        <Image src={"/assets/logo.png"} width={50} height={50} alt='logo' />
+                    </div>
+
+                    <div className='flex flex-col'>
+                        <h2 className='text-2xl font-bold text-white'>Red Cross</h2>
+                        <h2 className='text-sm text-white'>Cavite City</h2>
+                    </div>
                 </div>
 
-                <div className='flex flex-col'>
-                    <h2 className='text-2xl font-bold text-white'>Red Cross</h2>
-                    <h2 className='text-sm text-white'>Cavite City</h2>
-                </div>
-            </div>
+
+                <Link href="/uploadfile" className="text-white text-3xl hover:text-[#752222]"><RiUploadCloud2Fill/></Link>
+
+
+            </div> */}
+
+            
                 <RegisterForm updateId={updateId} update={update} setUpdate={setUpdate} loading={loading} setLoading={setLoading} userData={userData} setUserData={setUserData}/>
             </div>
 
@@ -142,7 +166,7 @@ const Dashboard = () => {
                    
                 <div className='bg-[#211e1e] h-[530px] overflow-y-auto w-full rounded-md overflow-hidden '>
 
-                      <DataTable handleDelete={handleDelete} users={finalUsers} setUpdateId={setUpdateId} setUpdate={setUpdate}/>
+                      <DataTable handleUnlockCertificate={handleUnlockCertificate} handleDelete={handleDelete} users={finalUsers} setUpdateId={setUpdateId} setUpdate={setUpdate}/>
                 </div>
             </div>
                 

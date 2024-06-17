@@ -1,9 +1,9 @@
 'use client'
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useEffect,useState } from "react";
-import axios from "axios";
-const DataTable = ({setUpdate,setUpdateId,users,handleDelete}) => {
+import { FaUnlock } from "react-icons/fa6";
+import { FaClipboardCheck } from "react-icons/fa6";
+const DataTable = ({setUpdate,setUpdateId,users,handleDelete,handleUnlockCertificate}) => {
 
     
 // bg-[#211e1e]
@@ -33,6 +33,7 @@ const DataTable = ({setUpdate,setUpdateId,users,handleDelete}) => {
                             setUpdateId(val.id)
                          }} className='text-xl text-blue-500 '><FaEdit /></button>
                         <button onClick={() => handleDelete(val.id)} className='text-xl text-red-500'><MdDelete /></button>
+                        <button onClick={() => handleUnlockCertificate(val.id)} className='text-xl text-orange-500'>{val.certificatedApproved ? <FaClipboardCheck/> : <FaUnlock />}</button>
                     </td>
                 </tr> )}
                

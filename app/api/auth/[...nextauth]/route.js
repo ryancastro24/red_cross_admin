@@ -24,6 +24,8 @@ export const authOptions = {
                 }
 
 
+
+               
                 
                 // check if use exist or registered
                 const user = await prisma.userInfo.findFirst({
@@ -31,6 +33,15 @@ export const authOptions = {
                         email:credentials.email,
                     }
                 })
+
+
+                     
+                //  if no student was found
+                if(!user || !user?.password){
+                    throw new Error("User Not Found!")
+                }
+
+
 
 
                 console.log(user);
@@ -42,10 +53,7 @@ export const authOptions = {
                 }
 
 
-                //  if no student was found
-                if(!user || !user?.password){
-                    throw new Error("User Not Found!")
-                }   
+                   
                 // if password match
                 const passwordMatch = await bcrypt.compare(credentials.password, user.password);
 

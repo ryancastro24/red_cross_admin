@@ -34,6 +34,8 @@ export async function GET(req,{params}){
 }
 
 
+
+
 export async function PATCH(req,{params}){
     const {name,email,address,contact} = await req.json();
 

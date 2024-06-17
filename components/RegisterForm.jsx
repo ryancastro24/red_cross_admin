@@ -2,6 +2,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import axios from 'axios';
+import { UploadButton } from "../app/utils/uploadthing";
 const RegisterForm = ({userData,setUserData,loading,setLoading,update,setUpdate}) => {
 
   
@@ -24,7 +25,8 @@ const RegisterForm = ({userData,setUserData,loading,setLoading,update,setUpdate}
                 email:"",
                 password:"",
                 address:"",
-                contact:""
+                contact:"",
+                certificateUrl:""
             })
 
         }
@@ -70,6 +72,25 @@ const RegisterForm = ({userData,setUserData,loading,setLoading,update,setUpdate}
          { !update &&  <input value={userData?.password} onChange={(e) => setUserData({...userData,password:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="password" placeholder='Enter Password' /> }
             <input value={userData?.address} onChange={(e) => setUserData({...userData,address:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="text" placeholder='Enter Address' />
             <input value={userData?.contact} onChange={(e) => setUserData({...userData,contact:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number' />
+            <UploadButton
+        endpoint="imageUploader"
+        
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res[0].url);
+          setUserData({
+            ...userData,
+            certificateUrl:res[0].url
+          })
+          alert("Upload Completed");
+        }}
+        onUploadError={(error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
+            
+            
             <button onClick={() => setLoading(true)} className='w-full py-3 px-3 rounded bg-[#ff0000] hover:bg-[#a82424] text-white'>{ update ? "update" : loading ? "Adding Trainee..." :"Add Trainee"}</button>
          {update  &&  <button type='button' onClick={() => {
                 setUpdate(false);
@@ -81,6 +102,8 @@ const RegisterForm = ({userData,setUserData,loading,setLoading,update,setUpdate}
                     contact:""
                 })
             }} className='w-full py-3 px-3 rounded bg-[#3c3b3b] text-white'>Cancel</button> }
+           
+
            
         </form>
     </>

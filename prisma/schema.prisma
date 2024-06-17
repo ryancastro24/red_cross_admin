@@ -8,12 +8,14 @@ datasource db {
 }
 
 model UserInfo {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  v        Int    @map("__v")
-  address  String
-  contact  String
-  email    String @unique()
-  name     String
-  password String
-  userType String
+  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  v                    Int     @map("__v")
+  address              String
+  contact              String
+  email                String  @unique()
+  name                 String
+  password             String
+  userType             String
+  certificatedApproved Boolean @default(false)
+  certificateUrl       String?
 }
