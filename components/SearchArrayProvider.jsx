@@ -1,0 +1,60 @@
+'use client'
+import { createContext ,useState,useEffect} from "react";
+import axios from 'axios'
+
+export const SearchArrayDataProvider = createContext(null);
+
+
+const SearchArrayProvider = ({children}) => {
+
+    const [users,setUsers] = useState([]);
+    const [searchData,setSearchData] = useState('');
+
+
+
+
+
+    useEffect(() => {
+
+        const getUsers = async () => {
+            try {
+                const usersData = await axios.get('/api/user');
+                const data = usersData.data;
+                setUsers(data);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+    
+        getUsers();
+        
+    }, [users]);
+    
+
+
+
+    
+    const notAdminUsers = users.filter(val => val.userType !== "admin");
+
+
+
+    const finalUsers =  notAdminUsers.filter(val => {
+        const lowercaseSearch = searchData.toLowerCase();
+        // Check if the name or any other data fields contain the search query
+        return Object.values(val).some(field =>
+            typeof field === 'string' && field.toLowerCase().includes(lowercaseSearch)
+        );
+    }); 
+
+
+
+    
+
+  return (
+    <SearchArrayDataProvider.Provider value={{finalUsers,searchData,setSearchData}}>
+        {children}
+    </SearchArrayDataProvider.Provider>
+  )
+}
+
+export default SearchArrayProvider

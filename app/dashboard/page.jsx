@@ -1,6 +1,6 @@
 'use client'
 
-import { useState,useEffect } from 'react'
+import { useState,useEffect,useContext } from 'react'
 import Image from 'next/image'
 import RegisterForm from '@/components/RegisterForm'
 import DataTable from '@/components/DataTable'
@@ -8,25 +8,16 @@ import axios from 'axios'
 import { useSession, signOut} from 'next-auth/react'
 import Link from 'next/link'
 import { RiUploadCloud2Fill } from "react-icons/ri";
-
-
-
+import { SideNavigationProvider } from '@/components/SideNavigationProvider'
 const Dashboard = () => {
 
 
     const {data:session}  = useSession();
-
+    const navigationData = useContext(SideNavigationProvider)
 
     const [searchData,setSearchData] = useState('');
     const [unlockCertificate,setUnlockCertificate] = useState(false);
-    const [userData,setUserData] = useState({
-        name:"",
-        email:"",
-        password:"",
-        address:"",
-        contact:""
-    });
-
+ 
    
 
     const [loading,setLoading] = useState(false);
@@ -94,7 +85,7 @@ const Dashboard = () => {
     
         getUserData();  
 
-    }, [updateId, setUserData]); // assuming updateId is a dependency
+    }, [updateId]); // assuming updateId is a dependency
     
 
 
@@ -114,64 +105,15 @@ const Dashboard = () => {
 
 
   return (
-
-    <div className=''>
-
-        <div className='w-full h-full bg-[#0C0B0B] pt-5 flex justify-between'>
-
-            <div className='w-1/3 h-full flex flex-col gap-5  p-3  '>
-
-            {/* <div className='flex items-center justify-between gap-2'>
+    <div className='flex justify-center items-center w-full bg-white h-full'>
 
 
+        {navigationData.navigation === "form" && <RegisterForm update={update} setUpdate={setUpdate} navigationDataChange={navigationData.setNavigation}  loading={loading} setLoading={setLoading} />}
+        {navigationData.navigation === "list" && <DataTable users={users} handleDelete={handleDelete}/>}
+    
+    </div>
 
 
-                <div className='flex items-center gap-2'>
-                    <div className='bg-white rounded-full'>
-                        <Image src={"/assets/logo.png"} width={50} height={50} alt='logo' />
-                    </div>
-
-                    <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold text-white'>Red Cross</h2>
-                        <h2 className='text-sm text-white'>Cavite City</h2>
-                    </div>
-                </div>
-
-
-                <Link href="/uploadfile" className="text-white text-3xl hover:text-[#752222]"><RiUploadCloud2Fill/></Link>
-
-
-            </div> */}
-
-            
-                <RegisterForm updateId={updateId} update={update} setUpdate={setUpdate} loading={loading} setLoading={setLoading} userData={userData} setUserData={setUserData}/>
-            </div>
-
-
-
-
-            <div className='w-2/3 h-full  flex flex-col gap-3 p-3'>
-
-                 
-                 <div className='flex items-center h-full justify-between gap-4'>
-                
-                     <input value={searchData} onChange={(e) => setSearchData(e.target.value)} type="text" placeholder='Search...' className='px-3 py-2 rounded  w-[350px] outline-none' />
-                        <div className='flex items-center gap-5'>
-                            <h2 className='text-white'>{session?.user.name}</h2>
-                            <button onClick={signOut} className='bg-red-500 px-3 py-2 rounded text-white'>Logout</button>
-                        </div>
-                        
-                </div>
-
-                   
-                <div className='bg-[#211e1e] h-[530px] overflow-y-auto w-full rounded-md overflow-hidden '>
-
-                      <DataTable handleUnlockCertificate={handleUnlockCertificate} handleDelete={handleDelete} users={finalUsers} setUpdateId={setUpdateId} setUpdate={setUpdate}/>
-                </div>
-            </div>
-                
-        </div>
-</div>
   )
 }
 

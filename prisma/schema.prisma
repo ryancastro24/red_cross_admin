@@ -18,4 +18,7 @@ model UserInfo {
   userType             String
   certificatedApproved Boolean @default(false)
   certificateUrl       String?
+  category             String  @default("standard")
+  dateStarted          String?
+  dateEnded            String?
 }
