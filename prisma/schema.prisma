@@ -11,12 +11,14 @@ model UserInfo {
   id                   String  @id @default(auto()) @map("_id") @db.ObjectId
   v                    Int     @map("__v")
   address              String
+  orNumber             String
   contact              String
   email                String  @unique()
   name                 String
   password             String
   userType             String
   certificatedApproved Boolean @default(false)
+  profilePictureUrl    String?
   certificateUrl       String?
   category             String  @default("standard")
   dateStarted          String?

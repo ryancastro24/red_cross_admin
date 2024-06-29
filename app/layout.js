@@ -10,7 +10,7 @@ import Sidebar from "@/components/Sidebar";
 import SideNavigationProviderComponent from "@/components/SideNavigationProvider";
 import SearchInputField from "@/components/SearchInputField";
 import SearchArrayProvider from "@/components/SearchArrayProvider";
-import SearchByDate from "@/components/SearchByDate";
+
 
 const poppins = Poppins({weight: ["100","200","300","400","500","600","700"]})
 
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
 
 
             <SearchInputField/>
-            <SearchByDate/>
+           
               
 
             <div>

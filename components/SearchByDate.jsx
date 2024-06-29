@@ -9,7 +9,7 @@ const SearchByDate = () => {
   return (
     <div  className='flex items-center gap-3'>
             <label htmlFor="dateSearch" className='text-sm'>Date Started</label>
-          <input dateSearch value={searchData.searchData} type="date" onChange={(e) => searchData.setSearchData(e.target.value)} onFocus={() => navigationData.setNavigation("list")} placeholder="search..." className="px-3 py-1 rounded outline-none w-[250px]"/>
+          <input dateSearch value={searchData.searchData} type="date" onChange={(e) => searchData.setSearchData(e.target.value)} onFocus={() => navigationData.setNavigation("list")} placeholder="search..." className="px-3 py-1 bg-[#dadada] rounded outline-none w-[250px]"/>
     </div>
   )
 }

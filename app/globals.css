@@ -5,3 +5,58 @@
 
 
 
+.modal-overlay {
+    position: fixed;
+    inset:0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 50px;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 30px;
+    height:100%;
+    border-radius: 8px;
+    width: 900px;
+    max-width: 90%;
+    position: relative;
+   
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  form {
+    display:grid;
+    grid-template-columns: 1fr 1fr ;
+    width: 100%;
+    gap: 20px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  

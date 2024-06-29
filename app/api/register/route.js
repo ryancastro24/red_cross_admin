@@ -5,10 +5,10 @@ import bcrypt from 'bcryptjs'
 export async function POST(req){
 
     const body  = await req.json();
-    const {name,email,password,address,contact,category,dateStarted} = body;
+    const {name,email,password,address,contact,category,dateStarted,profilePictureUrl,orNumber} = body;
 
 
-    console.log(category);
+    console.log(profilePictureUrl);
 
 
     if(!name || !email || !password || !address || !contact || !category || !dateStarted){ //validate input 
@@ -35,6 +35,7 @@ export async function POST(req){
         const user = await prisma.userInfo.create({
             data:{
                 name:name,
+                orNumber:orNumber,
                 email:email,
                 address:address,
                 contact:contact,
@@ -42,7 +43,8 @@ export async function POST(req){
                 password:hashedPassword,
                 v:2,
                 category:category,
-                dateStarted:dateStarted
+                dateStarted:dateStarted,
+                profilePictureUrl:profilePictureUrl
             }
         })
     
