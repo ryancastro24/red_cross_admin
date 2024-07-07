@@ -10,6 +10,8 @@ const UpdateFormModal = ({ isOpen,onClose,userData,onUpdate }) => {
     setFormData(userData);
   }, [userData]);
 
+  
+
   if (!isOpen) return null;
 
   const handleChange = (e) => {

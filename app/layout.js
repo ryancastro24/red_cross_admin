@@ -12,7 +12,7 @@ import SearchInputField from "@/components/SearchInputField";
 import SearchArrayProvider from "@/components/SearchArrayProvider";
 
 
-const poppins = Poppins({weight: ["100","200","300","400","500","600","700"]})
+const poppins = Poppins({weight: ["100","200","300","400","500","600","700"],subsets:['devanagari','latin','latin-ext']})
 
 
 export const metadata = {
@@ -40,11 +40,13 @@ export default function RootLayout({ children }) {
         />
 
 
-        <Providers>
-       <SearchArrayProvider>
-      <SideNavigationProviderComponent>
+         <Providers>
+          <SearchArrayProvider>
+          <SideNavigationProviderComponent>
         <div className="flex justify-between items-center w-full">
-        <Sidebar/> 
+        
+        
+            <Sidebar/> 
         
         <div className="flex flex-col w-full h-screen">
           <div className="w-full h-16 bg-[#e4e2e2] flex items-center justify-between px-4">
@@ -63,11 +65,14 @@ export default function RootLayout({ children }) {
 
             </div>
           </div>
+
+          
           {children}
+
         </div>
          </div>
-      </SideNavigationProviderComponent>
-      </SearchArrayProvider>
+          </SideNavigationProviderComponent>
+          </SearchArrayProvider>
         </Providers>
         </body>
     </html>
