@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 export async function POST(req){
 
     const body  = await req.json();
-    const {name,email,password,address,contact,category,dateStarted,profilePictureUrl,orNumber} = body;
+    const {name,email,password,address,contact,category,dateStarted,profilePictureUrl,orNumber,certificateUrl} = body;
 
 
     console.log(profilePictureUrl);
@@ -44,7 +44,8 @@ export async function POST(req){
                 v:2,
                 category:category,
                 dateStarted:dateStarted,
-                profilePictureUrl:profilePictureUrl
+                profilePictureUrl:profilePictureUrl,
+                certificateUrl:certificateUrl
             }
         })
     

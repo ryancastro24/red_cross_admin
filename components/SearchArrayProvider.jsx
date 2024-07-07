@@ -9,6 +9,7 @@ const SearchArrayProvider = ({children}) => {
 
     const [users,setUsers] = useState([]);
     const [searchData,setSearchData] = useState('');
+    const [searchDataArchives,setSearchDataArchives] = useState('');
 
 
 
@@ -34,7 +35,8 @@ const SearchArrayProvider = ({children}) => {
 
 
     
-    const notAdminUsers = users.filter(val => val.userType !== "admin");
+    const notAdminUsers = users.filter(val => val.userType !== "admin" && val.certificatedApproved === false );
+    const graudatedUsers = users.filter(val => val.certificatedApproved === true);
 
 
 
@@ -49,9 +51,20 @@ const SearchArrayProvider = ({children}) => {
 
 
     
+    const archivedUsers =  graudatedUsers.filter(val => {
+        const lowercaseSearch = searchDataArchives.toLowerCase();
+        // Check if the name or any other data fields contain the search query
+        return Object.values(val).some(field =>
+            typeof field === 'string' && field.toLowerCase().includes(lowercaseSearch)
+        );
+    }); 
+
+
+
+    
 
   return (
-    <SearchArrayDataProvider.Provider value={{finalUsers,searchData,setSearchData}}>
+    <SearchArrayDataProvider.Provider value={{finalUsers,searchData,setSearchData,archivedUsers,searchDataArchives,setSearchDataArchives}}>
         {children}
     </SearchArrayDataProvider.Provider>
   )

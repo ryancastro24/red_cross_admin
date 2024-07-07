@@ -2,7 +2,7 @@ import { createUploadthing, UploadThingError } from "uploadthing/next"
 
 const f = createUploadthing();
 
-const auth = (req) => ({ id: "fakeId" }); // Fake auth function
+
 
 // FileRouter for your app, can contain multiple FileRoutes
 const ourFileRouter = {
@@ -17,6 +17,19 @@ const ourFileRouter = {
 
 
       console.log("i will create a mongogdb user connection here")
+
+      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      return { uploadedBy: metadata.userId };
+    }),
+
+  pdfUploader: f({ pdf: { maxFileSize: "4MB" } })
+   
+    .onUploadComplete(async ({ metadata, file }) => {
+      // This code RUNS ON YOUR SERVER after upload
+      console.log("Upload complete PDF FILE:", metadata.userId);
+
+      console.log("file url", file.url);
+
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };

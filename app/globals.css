@@ -60,3 +60,27 @@
     border-radius: 4px;
   }
   
+
+  .modal-details-overlay {
+    position: fixed;
+    inset:0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 50px;
+  }
+  
+  .modal-details-content {
+    background: white;
+    padding: 30px;
+    height:260px;
+    border-radius: 8px;
+    width: 900px;
+    max-width: 90%;
+    position: relative;
+    display:flex;
+    align-items: center;
+  }
+  
