@@ -1,3 +1,4 @@
+'use client'
 import {useState,useEffect} from 'react'
 import  '../app/globals.css'
 import { CgClose } from "react-icons/cg";
@@ -5,12 +6,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 const DetailsModal = ({isOpen,userData,onClose}) => {
     const [userDataDetails, setUserDataDetials] = useState(userData);
+    
+
+
+
+
 
     useEffect(() => {
         setUserDataDetials(userData);
     }, [userData]);
   
     if (!isOpen) return null;
+
+
+  
 
 
     return (
@@ -45,8 +54,8 @@ const DetailsModal = ({isOpen,userData,onClose}) => {
 
 
             <div className='flex justify-center items-center gap-2 absolute bottom-5 z-50 right-5'>
-                <Link href={`/assessment/${userDataDetails?.id}`} className='px-3 py-2 text-white rounded bg-green-500'>Assess</Link>
-                <Link href={""} className='px-3 py-2 text-white rounded bg-blue-500'>View Score</Link>
+                <Link href={`/assessment/${userDataDetails?.id}`} className='px-3 py-2 text-white rounded bg-green-500'>Assess</Link> 
+                <Link href={`/assessment/score/${userDataDetails?.id}`} className='px-3 py-2 text-white rounded bg-blue-500'>View Score</Link>
             </div>
           
         </div>

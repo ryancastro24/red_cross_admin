@@ -6,6 +6,9 @@ import { UploadButton } from "../app/utils/uploadthing";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { MdCloudDownload } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const RegisterForm = ({loading,setLoading,update,setUpdate,navigationDataChange}) => {
 
   
@@ -55,7 +58,18 @@ const handleDownload = (e) => {
 
         await axios.post('/api/register',userData)
                    .then(() => {
-                        alert("data has been saved!");
+
+                    toast('Trainee Has Been Added', {
+                      position: "top-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                      });
+
                         setLoading(false);
                         setUserData({
                             name:"",
@@ -88,6 +102,19 @@ const handleDownload = (e) => {
     }
   return (
     <>
+
+      <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      />
 
 <div
         id="certificate"

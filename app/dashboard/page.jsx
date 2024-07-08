@@ -5,15 +5,16 @@ import Image from 'next/image'
 import RegisterForm from '@/components/RegisterForm'
 import DataTable from '@/components/DataTable'
 import Archives from '@/components/Archives'
-import axios from 'axios'
-import { useSession, signOut} from 'next-auth/react'
+
 import Link from 'next/link'
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { SideNavigationProvider } from '@/components/SideNavigationProvider'
+
+import { toast } from 'react-toastify';
 const Dashboard = () => {
 
 
-    const {data:session}  = useSession();
+    
     const navigationData = useContext(SideNavigationProvider)
 
     const [searchData,setSearchData] = useState('');
@@ -33,7 +34,16 @@ const Dashboard = () => {
 
         await axios.delete(`/api/user/${id}`)
                     .then(() => {
-                        alert("data has beeen deleted!")
+                        toast('Trainee Has Been Deleted', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            });
                     })
                     .catch((e) => alert(e.message))
       

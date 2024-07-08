@@ -10,9 +10,9 @@ import Sidebar from "@/components/Sidebar";
 import SideNavigationProviderComponent from "@/components/SideNavigationProvider";
 import SearchInputField from "@/components/SearchInputField";
 import SearchArrayProvider from "@/components/SearchArrayProvider";
+import Profile from "@/components/Profile";
 
-
-const poppins = Poppins({weight: ["100","200","300","400","500","600","700"],subsets:['devanagari','latin','latin-ext']})
+const poppins = Poppins({weight: ["100","200","300","400","500","600","700"],preload: false})
 
 
 export const metadata = {
@@ -56,14 +56,8 @@ export default function RootLayout({ children }) {
             <SearchInputField/>
            
               
-
-            <div>
-
-                <div className="w-8 h-8 bg-white rounded-full">
-                </div>
-
-
-            </div>
+            <Profile/>
+         
           </div>
 
           

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import "../app/globals.css"
 import { CgClose } from "react-icons/cg";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const UpdateFormModal = ({ isOpen,onClose,userData,onUpdate }) => {
   const [formData, setFormData] = useState(userData);
 
@@ -29,6 +30,22 @@ const UpdateFormModal = ({ isOpen,onClose,userData,onUpdate }) => {
   };
 
   return (
+
+    <>
+
+    <ToastContainer
+    position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="light"
+    />
+    
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}><CgClose/></button>
@@ -66,6 +83,7 @@ const UpdateFormModal = ({ isOpen,onClose,userData,onUpdate }) => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

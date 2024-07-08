@@ -11,6 +11,8 @@ import UpdateFormModal from "./UpdateFormModal";
 import DetailsModal from "./DetailsModal";
 import CategoryDropdown from "./CategoryDropdown";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertificate }) => {
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -45,7 +47,16 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
     // Update the user in the context or state
     await axios.patch(`/api/user/${updatedUser.id}`, updatedUser)
       .then(() => {
-        alert("User certificate has been unlocked!");
+        toast('Data has been updated', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       })
       .catch((e) => alert(e.message));
 
@@ -80,7 +91,25 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
   };
 
   return (
+    <>
+
+<ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+
+
+
     <div className="w-full h-full flex flex-col gap-5 p-6">
+      
       <div className="flex justify-between items-center w-full">
         <h2>List of Trainees</h2>
         <SearchByDate />
@@ -175,6 +204,8 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
         userData={currentUser}
       />
     </div>
+
+    </>
   );
 }
 
