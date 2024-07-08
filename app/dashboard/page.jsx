@@ -5,7 +5,7 @@ import Image from 'next/image'
 import RegisterForm from '@/components/RegisterForm'
 import DataTable from '@/components/DataTable'
 import Archives from '@/components/Archives'
-
+import axios from 'axios'
 import Link from 'next/link'
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { SideNavigationProvider } from '@/components/SideNavigationProvider'
