@@ -23,7 +23,8 @@ const RegisterForm = ({loading,setLoading,update,setUpdate,navigationDataChange}
     category:"",
     dateStarted:"",
     profilePictureUrl:"",
-    certificateUrl:""
+    certificateUrl:"",
+    gender:""
 });
 
 
@@ -77,6 +78,7 @@ const handleDownload = (e) => {
                             password:"",
                             address:"",
                             contact:"",
+
                         })
 
                         navigationDataChange("list")
@@ -146,7 +148,7 @@ const handleDownload = (e) => {
         >
           <h1 style={{ fontSize: '2.5em', margin: '0' }}>Certificate of Achievement</h1>
           <p style={{ fontSize: '1.25em', marginTop: '40px' }}>This certifies that</p>
-          <h2 style={{ fontSize: '2em', margin: '20px 0' }}>{userData.name || 'Your Name Here'}</h2>
+          <h2 style={{ fontSize: '2em', margin: '20px 0' }}>{userData.name.toUpperCase() || 'Your Name Here'}</h2>
           <p style={{ fontSize: '1.25em' }}>has successfully completed the course</p>
           <p style={{ fontSize: '1.5em', fontStyle: 'italic', margin: '40px 0' }}>Red Cross Cavite Graduate</p>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
@@ -172,12 +174,22 @@ const handleDownload = (e) => {
             <input value={userData.address} onChange={(e) => setUserData({...userData,address:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Address' />
             <input value={userData.contact} onChange={(e) => setUserData({...userData,contact:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number' />
             
-            <div className='flex items-center'>
+            <div className='flex items-center gap-2'>
+
+            <select value={userData.gender} onChange={(e) => setUserData({...userData,gender:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]'>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+
+
             <select value={userData.category} onChange={(e) => setUserData({...userData,category:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number'>
               <option value="">Select Category</option>
               <option value="standard">Standard</option>
               <option value="occupational">Occupational</option>
             </select>
+
+           
             <button type='button' onClick={ handleDownload} className='px-3 py-2 rounded h-full text-2xl bg-[#949393] text-white'><MdCloudDownload/></button>
             </div>
 

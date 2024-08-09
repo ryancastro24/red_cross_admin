@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
 import { IoArchiveSharp } from "react-icons/io5";
 import { SideNavigationProvider } from './SideNavigationProvider';
+import { SiGoogleanalytics } from "react-icons/si";
 const Sidebar = () => {
 
   const navigation = useContext(SideNavigationProvider)
@@ -24,7 +25,8 @@ const Sidebar = () => {
         <ul className='flex flex-col gap-5 items-center mt-10'>
             <li onClick={() => navigation.setNavigation("form")} className={`text-[#141313] ${navigation.navigation === "form" ? "bg-red-500 text-white font-bold" : ""} flex items-center px-4 py-3 cursor-pointer rounded text-sm gap-2 w-full`}><FaUser/> ADD TRAINEE</li>
             <li onClick={() => navigation.setNavigation("list")} className={`text-[#141313] ${navigation.navigation === "list" ? "bg-red-500 text-white font-bold" : ""} flex items-center px-4 py-3 cursor-pointer rounded text-sm gap-2 w-full`}><IoPeople/> LIST OF TRAINEES</li>
-            <li onClick={() => navigation.setNavigation("archive")} className={`text-[#141313] ${navigation.navigation === "archive" ? "bg-red-500 text-white font-bold" : ""} flex items-center px-4 py-3 cursor-pointer rounded text-sm gap-2 w-full`}><IoArchiveSharp/> Archives</li>
+            <li onClick={() => navigation.setNavigation("analytics")} className={`text-[#141313] ${navigation.navigation === "analytics" ? "bg-red-500 text-white font-bold" : ""} flex items-center px-4 py-3 cursor-pointer rounded text-sm gap-2 w-full`}><SiGoogleanalytics/> ANALYTICS</li>
+            <li onClick={() => navigation.setNavigation("archive")} className={`text-[#141313] ${navigation.navigation === "archive" ? "bg-red-500 text-white font-bold" : ""} flex items-center px-4 py-3 cursor-pointer rounded text-sm gap-2 w-full`}><IoArchiveSharp/> ARCHIVES</li>
         </ul>
 
 

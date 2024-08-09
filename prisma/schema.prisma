@@ -23,6 +23,7 @@ model UserInfo {
   category             String           @default("standard")
   dateStarted          String?
   dateEnded            String?
+  gender               String?
   UserAssessment       UserAssessment[]
 }
 

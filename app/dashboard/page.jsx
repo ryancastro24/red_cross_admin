@@ -9,7 +9,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { SideNavigationProvider } from '@/components/SideNavigationProvider'
-
+import Analytics from '@/components/Analytics'
 import { toast } from 'react-toastify';
 const Dashboard = () => {
 
@@ -80,6 +80,7 @@ const Dashboard = () => {
 
         {navigationData.navigation === "form" && <RegisterForm update={update} setUpdate={setUpdate} navigationDataChange={navigationData.setNavigation}  loading={loading} setLoading={setLoading} />}
         {navigationData.navigation === "list" && <DataTable handleUnlockCertificate={handleUnlockCertificate}  handleDelete={handleDelete}/>}
+        {navigationData.navigation === "analytics" && <Analytics  />}
         {navigationData.navigation === "archive" && <Archives  />}
 
     </div>

@@ -5,13 +5,13 @@ import bcrypt from 'bcryptjs'
 export async function POST(req){
 
     const body  = await req.json();
-    const {name,email,password,address,contact,category,dateStarted,profilePictureUrl,orNumber,certificateUrl} = body;
+    const {name,email,password,address,contact,category,gender,dateStarted,profilePictureUrl,orNumber,certificateUrl} = body;
 
 
-    console.log(profilePictureUrl);
+    console.log(gender);
 
 
-    if(!name || !email || !password || !address || !contact || !category || !dateStarted){ //validate input 
+    if(!name || !email || !password || !address || !contact || !category || !dateStarted || !gender){ //validate input 
         return new NextResponse('Missing Fields', {status:400});
     }
 
@@ -45,7 +45,8 @@ export async function POST(req){
                 category:category,
                 dateStarted:dateStarted,
                 profilePictureUrl:profilePictureUrl,
-                certificateUrl:certificateUrl
+                certificateUrl:certificateUrl,
+                gender:gender
             }
         })
     
