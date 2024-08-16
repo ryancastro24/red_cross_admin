@@ -52,9 +52,6 @@ const Dashboard = () => {
 
     const handleUnlockCertificate = async(id) => {
 
-
-
-        
         await axios.patch(`/api/certificate/${id}`,{formattedDate:formattedDate})
                     .then(() => {
                         alert("user certificate has been unlock!")

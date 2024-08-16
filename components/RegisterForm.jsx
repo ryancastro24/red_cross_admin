@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { UploadButton } from "../app/utils/uploadthing";
@@ -8,6 +8,18 @@ import jsPDF from 'jspdf';
 import { MdCloudDownload } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+import DatePicker from './DatePicker';
 
 const RegisterForm = ({loading,setLoading,update,setUpdate,navigationDataChange}) => {
 
@@ -27,6 +39,36 @@ const RegisterForm = ({loading,setLoading,update,setUpdate,navigationDataChange}
     gender:""
 });
 
+
+const [date,setDate] = useState("");
+
+
+const convertedDate = new Date(date);
+
+// Extract the month, day, and year
+const month = String(convertedDate.getMonth() + 1).padStart(2, '0');
+const day = String(convertedDate.getDate()).padStart(2, '0');
+const year = String(convertedDate.getFullYear()).slice(-2);
+
+// Format the date as MM-DD-YY
+const formattedDate = `${month}-${day}-${year}`;
+
+
+
+
+const handleAddressChange = (value) => {
+  setUserData({...userData,address:value});
+};
+
+
+const handleGenderChange = (value) => {
+  setUserData({...userData,gender:value});
+};
+
+
+const handleCategoryChange = (value) => {
+  setUserData({...userData,category:value});
+};
 
 
 
@@ -50,6 +92,7 @@ const handleDownload = (e) => {
 
 
 
+
     const handleSubmit = async(e) => {
 
         e.preventDefault();
@@ -57,7 +100,7 @@ const handleDownload = (e) => {
 
 
 
-        await axios.post('/api/register',userData)
+        await axios.post('/api/register',{...userData,dateStarted:formattedDate})
                    .then(() => {
 
                     toast('Trainee Has Been Added', {
@@ -165,40 +208,125 @@ const handleDownload = (e) => {
       </div>
         
        
-        <form onSubmit={handleSubmit} className='border-[0.5px] h-full w-full rounded p-5 grid grid-cols-2  gap-6 ' action="">
-          <h2 className='text-[#100f0f] col-span-2'>Enroll Trainee</h2>
-            <input value={userData.orNumber} onChange={(e) => setUserData({...userData,orNumber:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Or Number' />
-            <input value={userData.name} onChange={(e) => setUserData({...userData,name:e.target.value})} className='w-full outline-red-500 rounded-s py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Name' />
-            <input value={userData.email} onChange={(e) => setUserData({...userData,email:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="email" placeholder='Enter Email' />
-         { !update &&  <input value={userData?.password} onChange={(e) => setUserData({...userData,password:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="password" placeholder='Enter Password' /> }
-            <input value={userData.address} onChange={(e) => setUserData({...userData,address:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Address' />
-            <input value={userData.contact} onChange={(e) => setUserData({...userData,contact:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number' />
+        <form onSubmit={handleSubmit} className=' h-full w-full rounded p-5 grid grid-cols-2  gap-6 ' action="">
+          <h2 className='text-[#100f0f] text-2xl col-span-2'>Enroll Trainee</h2>
+
+            <Input
+            value={userData.orNumber} 
+            onChange={(e) => setUserData({...userData,orNumber:e.target.value})} 
+            placeholder='Enter Or Number'
+            />
+
+            <Input
+            value={userData.name} 
+            onChange={(e) => setUserData({...userData,name:e.target.value})} 
+            placeholder='Enter Fullname'
+            />
+
+
+
+<div className='flex items-center gap-2'>
+            <Input
+            value={userData.email} 
+            onChange={(e) => setUserData({...userData,email:e.target.value})} 
+            placeholder='Enter Email'
+            />    
+
+
             
+         { !update &&  
+          <Input
+          value={userData.password} 
+          onChange={(e) => setUserData({...userData,password:e.target.value})} 
+          placeholder='Enter Password'
+          type="password"
+         />    
+  }
+
+  </div>
+
+
+
+    <div className='flex items-center gap-2'>
+
+             <Select onValueChange={handleAddressChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Manila">Manila</SelectItem>
+                <SelectItem value="Cavite">Cavite</SelectItem>
+                <SelectItem value="Pasay">Pasay</SelectItem>
+              </SelectContent>
+            </Select>
+
+
+
+            <DatePicker date={date} setDate={setDate}/>
+      
+    </div>
+
+          
+    <div className='flex items-center gap-2'>
+            
+            <Input
+            value={userData.contact} 
+            onChange={(e) => setUserData({...userData,contact:e.target.value})} 
+            placeholder='Enter Contact Number'
+            />    
+
+
+            <Select onValueChange={handleGenderChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="male">Male</SelectItem>
+                <SelectItem value="female">Female</SelectItem>
+              </SelectContent>
+            </Select>
+
+
+      </div>
+
+
             <div className='flex items-center gap-2'>
 
-            <select value={userData.gender} onChange={(e) => setUserData({...userData,gender:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]'>
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
+        
 
 
-            <select value={userData.category} onChange={(e) => setUserData({...userData,category:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="text" placeholder='Enter Contact Number'>
-              <option value="">Select Category</option>
-              <option value="standard">Standard</option>
-              <option value="occupational">Occupational</option>
-            </select>
+            <Select onValueChange={handleCategoryChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="standard">Standard</SelectItem>
+                <SelectItem value="occupational">Occupational</SelectItem>
+              </SelectContent>
+            </Select>
 
+
+          <Button  asChild>
+            <button type='button' className='text-xl w-[90px] ' onClick={ handleDownload} ><MdCloudDownload/></button>
+          </Button>
            
-            <button type='button' onClick={ handleDownload} className='px-3 py-2 rounded h-full text-2xl bg-[#949393] text-white'><MdCloudDownload/></button>
             </div>
 
 
-            <input value={userData.dateStarted} onChange={(e) => setUserData({...userData,dateStarted:e.target.value})} className='w-full outline-red-500 rounded py-3 px-3 h-16 bg-[#D9D9D9]' type="date" placeholder='Enter Contact Number' />
-        
-        
+      
+
+
+
+
         <UploadButton
         endpoint="imageUploader"
+        appearance={{
+          button: {
+            padding: "2rem",
+            color: "#000",
+            border: "0.1px solid gray"
+          }
+        }}
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res[0].url);

@@ -1,9 +1,20 @@
-import React from 'react'
+
+import {useEffect} from 'react'
+import MonthTrainee from './MonthTrainee'
+import TotalTraineesChart from './TotaltraineesChart'
+
+
+
 
 const Analytics = () => {
+
+
+  
+
   return (
-    <div>
-        <h2 className='text-2xl'>Analytics</h2>
+    <div className='w-full flex justify-evenly items-center'>
+      <TotalTraineesChart/>
+      <MonthTrainee/>
     </div>
   )
 }

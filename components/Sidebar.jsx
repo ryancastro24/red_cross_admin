@@ -13,7 +13,7 @@ const Sidebar = () => {
 
 
   return (
-    <div className='w-[250px] h-screen bg-[#eeeded] p-5'>
+    <div className='w-[250px] h-screen border border-[#0000001e] bg-white  p-5'>
         
         <div className='flex items-center justify-center gap-2'>
             <Image src={'/assets/white logo.png'} width={45} height={45}/>

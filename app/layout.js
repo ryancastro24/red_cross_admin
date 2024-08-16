@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
             <Sidebar/> 
         
         <div className="flex flex-col w-full h-screen">
-          <div className="w-full h-16 bg-[#e4e2e2] flex items-center justify-between px-4">
+          <div className="w-full h-16  flex items-center shadow-card bg-[#edeaea] justify-between px-4">
 
 
 
