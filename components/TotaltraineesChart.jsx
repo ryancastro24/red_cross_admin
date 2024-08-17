@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import * as React from "react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Card,
   CardContent,
@@ -78,8 +78,40 @@ export default function TotalTraineesChart() {
 
   if (cities === null) {
     return (
-      <div>
-        <h2>Loading...</h2>
+      <div  className="flex flex-col gap-5">
+
+
+
+      <div className="flex gap-2 items-center">
+        <div className="flex flex-col gap-2">
+          <Skeleton  className={'w-[300px] h-[30px]  bg-[#b7b7b7] rounded'}  />
+          <Skeleton  className={'w-[300px] h-[20px]  bg-[#b7b7b7] rounded'}  />
+        </div>
+
+        
+        <div className="flex items-center gap-2">
+          <Skeleton  className={'w-[100px] h-[55px]  bg-[#b7b7b7] rounded'}  />
+          <Skeleton  className={'w-[100px] h-[55px]  bg-[#b7b7b7] rounded'}  />
+        </div>
+
+      </div>
+
+
+     
+
+
+      <div className="flex gap-2">
+
+      <Skeleton  className={'w-[150px] h-[200px]  bg-[#b7b7b7] rounded'}  />
+      <Skeleton  className={'w-[150px] h-[200px]  bg-[#b7b7b7] rounded'}  />
+      <Skeleton  className={'w-[200px] h-[200px]  bg-[#b7b7b7] rounded'}  />
+     
+
+      </div>
+
+
+
+
       </div>
     );
   }
