@@ -70,7 +70,7 @@ const LoginForm = () => {
 
             <div className='w-full gap-1 flex flex-col'>
                 <label className='text-black text-sm' htmlFor="email">Email</label>
-                <input required value={userData.email} onChange={(e) => setUserData({...userData, email:e.target.value})} id='email' type="email" placeholder='Enter Email' className='text-black px-3 border border-[0.2] border-opacity-30 rounded border-black py-2 w-full'/>
+                <input value={userData.email} onChange={(e) => setUserData({...userData, email:e.target.value})} id='email' type="text" placeholder='Enter Email' className='text-black px-3 border border-[0.2] border-opacity-30 rounded border-black py-2 w-full'/>
             </div>
 
             <div className='w-full gap-1 flex flex-col'>

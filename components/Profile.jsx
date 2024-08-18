@@ -1,7 +1,6 @@
 'use client'
 import {useState} from 'react'
 import Image from 'next/image'
-
 import { useSession, signOut} from 'next-auth/react'
 const Profile = () => {
     const {data:session}  = useSession();

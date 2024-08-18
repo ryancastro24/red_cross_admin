@@ -2,7 +2,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-
+import  ProfileDropDown  from "@/components/ProfileDropdown";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { OurFileRouter } from "./api/uploadthing/core";
@@ -55,8 +55,8 @@ export default function RootLayout({ children }) {
 
             <SearchInputField/>
            
-              
-            <Profile/>
+            <ProfileDropDown/>
+           
          
           </div>
 

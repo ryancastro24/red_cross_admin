@@ -1,9 +1,8 @@
 
 import {useEffect} from 'react'
-import MonthTrainee from './MonthTrainee'
+import MonthTrainee from './TotalEnrolliesGender'
 import TotalTraineesChart from './TotaltraineesChart'
-
-
+import TotalEnrolliesGender from './TotalEnrolliesGender'
 
 
 const Analytics = () => {
@@ -14,7 +13,7 @@ const Analytics = () => {
   return (
     <div className='w-full flex justify-evenly items-center'>
       <TotalTraineesChart/>
-      <MonthTrainee/>
+      <TotalEnrolliesGender/>
     </div>
   )
 }

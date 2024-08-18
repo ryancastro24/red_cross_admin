@@ -24,6 +24,7 @@ model UserInfo {
   dateStarted          String?
   dateEnded            String?
   gender               String?
+  dateCreated          DateTime         @default(now()) // New field added here
   UserAssessment       UserAssessment[]
 }
 

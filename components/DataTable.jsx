@@ -13,7 +13,16 @@ import CategoryDropdown from "./CategoryDropdown";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertificate }) => {
   const [openFormModal, setOpenFormModal] = useState(false);
   const [openDetaisModal, setOpenDetailsModal] = useState(false);
@@ -124,7 +133,7 @@ theme="light"
         <h2>Total: {users.finalUsers.length}</h2>
       </div>
       <div className="w-full h-[400px] overflow-auto">
-        <table className='w-full'>
+        {/* <table className='w-full'>
           <thead className='bg-red-700 sticky top-0'>
             <tr>
               <th className='py-3 px-4 text-sm text-left text-white'>Select</th>
@@ -143,7 +152,7 @@ theme="light"
               </div>
             ) : (
               <>
-                {users.finalUsers.map((val, index) => (
+                {users.finalUsers((val, index) => (
                   <tr
                     key={val.id}
                     className={`${checkedUsers.find(u => u.id === val.id) ? "bg-red-900" : index % 2 === 0 ? "bg-[#d9d9d9]" : "bg-[#f0f0f0]"} hover:bg-red-300 cursor-pointer`}
@@ -190,7 +199,69 @@ theme="light"
               </>
             )}
           </tbody>
-        </table>
+        </table> */}
+
+<Table>
+      <TableCaption>{users.finalUsers.length === 0 ? "No Available Trainees" : "Available Trainees"}</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Select</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead >Category</TableHead>
+          <TableHead >Date Started</TableHead>
+          <TableHead >Action </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+  
+        {users.finalUsers.map((val,index) => (
+          <TableRow key={val.id}>
+            <TableCell > 
+                    <input
+                        type="checkbox"
+                        checked={checkedUsers.find(u => u.id === val.id)}
+                        onChange={() => handleCheckboxChange(val)}
+                      /></TableCell>
+            <TableCell className={'flex items-center gap-3'}>
+              <div className="h-8 w-8 rounded-full relative bg-[#8d8d8d] overflow-hidden">
+                        {val.profilePictureUrl === "" ? (
+                          <Image src={'/assets/user profile.jpg'} fill className="object-cover absolute inset-0 w-full h-full" />
+                        ) : (
+                          <Image src={val.profilePictureUrl} fill className="object-cover absolute inset-0 w-full h-full" />
+                        )}
+                      </div>
+                      {val.name}
+              </TableCell>
+            <TableCell>{val.email}</TableCell>
+            <TableCell >{val.category}</TableCell>
+            <TableCell >{val.dateStarted}</TableCell>
+            <TableCell >
+              <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => handleOpenModal(e, val)}
+                          className='text-lg text-[#343434]'
+                        >
+                          <FaEdit />
+                        </button>
+                        <button onClick={() => handleDelete(val.id)} className='text-xl text-[#343434] '>
+                          <MdDelete />
+                        </button>
+                        <button onClick={() => handleOpenDetailsModal(val)} className='text-xl text-[#343434] '>
+                          <IoEyeSharp />
+                        </button>
+                      </div>
+              </TableCell>
+          </TableRow>
+        ))}
+
+        
+      </TableBody>
+        
+    </Table>
+
+
+
       </div>
       <UpdateFormModal
         isOpen={openFormModal}
