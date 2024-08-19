@@ -1,7 +1,6 @@
 'use client'
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { IoEyeSharp } from "react-icons/io5";
+import Link from "next/link";
+import { CiMenuKebab } from "react-icons/ci";
 import { useState, useContext } from "react";
 import { SearchArrayDataProvider } from "./SearchArrayProvider";
 import SearchByDate from "./SearchByDate";
@@ -9,10 +8,20 @@ import Image from "next/image";
 import { CiMenuKebab } from "react-icons/ci";
 import UpdateFormModal from "./UpdateFormModal";
 import DetailsModal from "./DetailsModal";
+import UpdateModal from "./UpdateModal";
 import CategoryDropdown from "./CategoryDropdown";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import UserDetailsModal from "./userDetailsModal";
 import {
   Table,
   TableBody,
@@ -52,26 +61,7 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
     setCurrentUser(null);
   };
 
-  const handleUpdate = async (updatedUser) => {
-    // Update the user in the context or state
-    await axios.patch(`/api/user/${updatedUser.id}`, updatedUser)
-      .then(() => {
-        toast('Data has been updated', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
-      })
-      .catch((e) => alert(e.message));
-
-    console.log('Updated user:', updatedUser);
-    // Here you can call an update function to persist the changes
-  };
+  
 
   const handleCheckboxChange = (user) => {
     let newCheckedUsers = [...checkedUsers];
@@ -133,73 +123,7 @@ theme="light"
         <h2>Total: {users.finalUsers.length}</h2>
       </div>
       <div className="w-full h-[400px] overflow-auto">
-        {/* <table className='w-full'>
-          <thead className='bg-red-700 sticky top-0'>
-            <tr>
-              <th className='py-3 px-4 text-sm text-left text-white'>Select</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Name</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Email</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Category</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Date Started</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Or Number</th>
-              <th className='py-3 px-4 text-sm text-left text-white'>Action</th>
-            </tr>
-          </thead>
-          <tbody className="relative">
-            {users.finalUsers.length === 0 ? (
-              <div className="absolute z-10 inset-0 flex justify-center items-center w-full h-full bg-blue-500">
-                <h1 className="text-xl text-center w-full mt-40">No Data to Show!</h1>
-              </div>
-            ) : (
-              <>
-                {users.finalUsers((val, index) => (
-                  <tr
-                    key={val.id}
-                    className={`${checkedUsers.find(u => u.id === val.id) ? "bg-red-900" : index % 2 === 0 ? "bg-[#d9d9d9]" : "bg-[#f0f0f0]"} hover:bg-red-300 cursor-pointer`}
-                  >
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d]'>
-                      <input
-                        type="checkbox"
-                        checked={checkedUsers.find(u => u.id === val.id)}
-                        onChange={() => handleCheckboxChange(val)}
-                      />
-                    </td>
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d] flex items-center gap-2'>
-                      <div className="h-8 w-8 rounded-full relative bg-[#8d8d8d] overflow-hidden">
-                        {val.profilePictureUrl === "" ? (
-                          <Image src={'/assets/user profile.jpg'} fill className="object-cover absolute inset-0 w-full h-full" />
-                        ) : (
-                          <Image src={val.profilePictureUrl} fill className="object-cover absolute inset-0 w-full h-full" />
-                        )}
-                      </div>
-                      {val.name}
-                    </td>
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d]'>{val.email}</td>
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d]'>{val?.category}</td>
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d]'>{val?.dateStarted}</td>
-                    <td className='p-3 px-4 text-sm text-[#0e0d0d]'>{val?.orNumber}</td>
-                    <td className='p-3 gap-2'>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={(e) => handleOpenModal(e, val)}
-                          className='text-lg text-[#343434]'
-                        >
-                          <FaEdit />
-                        </button>
-                        <button onClick={() => handleDelete(val.id)} className='text-xl text-[#343434] '>
-                          <MdDelete />
-                        </button>
-                        <button onClick={() => handleOpenDetailsModal(val)} className='text-xl text-[#343434] '>
-                          <IoEyeSharp />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </>
-            )}
-          </tbody>
-        </table> */}
+        
 
 <Table>
       <TableCaption>{users.finalUsers.length === 0 ? "No Available Trainees" : "Available Trainees"}</TableCaption>
@@ -238,18 +162,32 @@ theme="light"
             <TableCell >{val.dateStarted}</TableCell>
             <TableCell >
               <div className="flex items-center gap-2">
-                        <button
-                          onClick={(e) => handleOpenModal(e, val)}
-                          className='text-lg text-[#343434]'
-                        >
-                          <FaEdit />
+              <UpdateModal {...val}/> 
+              <UserDetailsModal {...val}/> 
+
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-xl"><CiMenuKebab/></DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link href={`/assessment/${val.id}`} >Assess</Link> 
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={`/assessment/score/${val.id}`} >View Score</Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem>
+                        <button onClick={() => handleDelete(val.id)} >
+                         delete user
                         </button>
-                        <button onClick={() => handleDelete(val.id)} className='text-xl text-[#343434] '>
-                          <MdDelete />
-                        </button>
-                        <button onClick={() => handleOpenDetailsModal(val)} className='text-xl text-[#343434] '>
-                          <IoEyeSharp />
-                        </button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+             
+
+                       
+                        
                       </div>
               </TableCell>
           </TableRow>
@@ -263,17 +201,7 @@ theme="light"
 
 
       </div>
-      <UpdateFormModal
-        isOpen={openFormModal}
-        onClose={handleCloseModal}
-        userData={currentUser}
-        onUpdate={handleUpdate}
-      />
-      <DetailsModal
-        isOpen={openDetaisModal}
-        onClose={handleCloseDetailsModal}
-        userData={currentUser}
-      />
+
     </div>
 
     </>

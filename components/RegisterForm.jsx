@@ -268,12 +268,12 @@ const handleDownload = (e) => {
 
           
     <div className='flex items-center gap-2'>
-            
-            <Input
-            value={userData.contact} 
-            onChange={(e) => setUserData({...userData,contact:e.target.value})} 
-            placeholder='Enter Contact Number'
-            />    
+              
+              <Input
+              value={userData.contact} 
+              onChange={(e) => setUserData({...userData,contact:e.target.value})} 
+              placeholder='Enter Contact Number'
+              />    
 
 
             <Select onValueChange={handleGenderChange}>
@@ -360,27 +360,20 @@ const handleDownload = (e) => {
         }}
       />
             
-            
+          <Button asChild>
             <button disabled={
-            userData.name === "" &&
-            userData.email === "" &&
-            userData.password === "" &&
-            userData.address === "" &&
-            userData.contact === "" &&
-            userData.category === ""
+            !userData.orNumber ||
+            !userData.name || 
+            !userData.email || 
+            !userData.password || 
+            !userData.address || 
+            !userData.contact || 
+            !userData.category
           } 
-          onClick={() => setLoading(true)} className='w-full col-span-2 py-3 px-3 rounded bg-[#ff0000] hover:bg-[#a82424] text-white'>{ update ? "update" : loading ? "Adding Trainee..." :"Add Trainee"}</button>
-         {update  &&  <button type='button' onClick={() => {
-                setUpdate(false);
-                setUserData({
-                    name:"",
-                    email:"",
-                    password:"",
-                    address:"",
-                    contact:""
-                })
-            }} className='w-full py-3 px-3 rounded bg-[#3c3b3b] text-white'>Cancel</button> }
-           
+          onClick={() => setLoading(true)} className='w-full cursor-pointer col-span-2 py-3 h-16  px-3 rounded bg-red-600 hover:bg-red-800 text-white'>{ update ? "update" : loading ? "Adding Trainee..." :"Add Trainee"}
+          </button>
+          </Button>
+         
           
            
         </form>

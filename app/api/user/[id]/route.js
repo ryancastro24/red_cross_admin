@@ -37,7 +37,7 @@ export async function GET(req,{params}){
 
 
 export async function PATCH(req,{params}){
-    const {name,email,address,contact,category,dateStarted,orNumber} = await req.json();
+    const {name,email,address,contactNumber,category,gender} = await req.json();
 
     const updateUser = await prisma.userInfo.update({
         where:{
@@ -47,10 +47,9 @@ export async function PATCH(req,{params}){
             name,
             email,
             address,
-            contact,
+            contact:contactNumber,
             category,
-            dateStarted,
-            orNumber
+            gender
         }
     })
 
