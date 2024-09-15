@@ -5,7 +5,6 @@ import { useState, useContext } from "react";
 import { SearchArrayDataProvider } from "./SearchArrayProvider";
 import SearchByDate from "./SearchByDate";
 import Image from "next/image";
-import { CiMenuKebab } from "react-icons/ci";
 import UpdateFormModal from "./UpdateFormModal";
 import DetailsModal from "./DetailsModal";
 import UpdateModal from "./UpdateModal";
@@ -13,6 +12,11 @@ import CategoryDropdown from "./CategoryDropdown";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Button } from "@/components/ui/button"
+import Loader from "./Loader";
+import { FaRegUser } from "react-icons/fa6";
+import { Checkbox } from "@/components/ui/checkbox"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +26,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import UserDetailsModal from "./userDetailsModal";
+import { useToast } from "@/components/ui/use-toast"
+
 import {
   Table,
   TableBody,
@@ -33,33 +39,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertificate }) => {
-  const [openFormModal, setOpenFormModal] = useState(false);
-  const [openDetaisModal, setOpenDetailsModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
   const [checkedUsers, setCheckedUsers] = useState([]);
+  const [unlockLoading,setUnlockLoading] = useState(false);
+
+  console.log(checkedUsers);
 
   const users = useContext(SearchArrayDataProvider);
 
-  const handleOpenModal = (e, user) => {
-    e.stopPropagation();
-    setCurrentUser(user);
-    setOpenFormModal(true);
-  };
-
-  const handleOpenDetailsModal = (user) => {
-    setCurrentUser(user);
-    setOpenDetailsModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenFormModal(false);
-    setCurrentUser(null);
-  };
-
-  const handleCloseDetailsModal = () => {
-    setOpenDetailsModal(false);
-    setCurrentUser(null);
-  };
+ 
 
   
 
@@ -73,7 +60,12 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
     setCheckedUsers(newCheckedUsers);
   };
 
+
+
+
   const handleBulkUnlock = async () => {
+
+    setUnlockLoading(true);
 
     const dateNow = new Date();
     const formattedDate = dateNow.toISOString().split('T')[0];
@@ -82,7 +74,12 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
     const userIds = checkedUsers.map(user => user.id);
     try {
       await axios.patch('/api/users/graduates', { userIds ,formattedDate}); // Update your API route accordingly
-      alert('Selected users have been unlocked!');
+      setUnlockLoading(false);
+      toast({
+        title: "Selected Trainees has been passed",
+        description: "Friday, February 10, 2023 at 5:57 PM",
+      })
+      
       setCheckedUsers([]); // Clear the checked users after successful update
     } catch (error) {
       alert('Error unlocking users: ' + error.message);
@@ -92,19 +89,6 @@ const DataTable = ({ setUpdate, setUpdateId, handleDelete, handleUnlockCertifica
   return (
     <>
 
-<ToastContainer
-position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-
 
 
     <div className="w-full h-full flex flex-col gap-5 p-6">
@@ -113,14 +97,25 @@ theme="light"
         <h2>List of Trainees</h2>
         <SearchByDate />
         <CategoryDropdown />
+       
+        <h2 className="flex items-center gap-1">
+          <FaRegUser/> 
+
+          <strong>
+          {users.finalUsers.length}
+          </strong>
+          {users.finalUsers.length  === 1 ? " Trainee" : " Trainees"} 
+        
+        </h2>
+        <Button asChild>
         <button
           onClick={handleBulkUnlock}
           className="bg-red-900 text-white py-2 px-4 rounded"
           disabled={checkedUsers.length === 0}
         >
-          Unlock Selected
+          {unlockLoading? <Loader/> :"Pass Selected"}
         </button>
-        <h2>Total: {users.finalUsers.length}</h2>
+        </Button>
       </div>
       <div className="w-full h-[400px] overflow-auto">
         
@@ -142,17 +137,18 @@ theme="light"
         {users.finalUsers.map((val,index) => (
           <TableRow key={val.id}>
             <TableCell > 
-                    <input
-                        type="checkbox"
-                        checked={checkedUsers.find(u => u.id === val.id)}
-                        onChange={() => handleCheckboxChange(val)}
-                      /></TableCell>
+              <Checkbox  
+               checked={checkedUsers.find(u => u.id === val.id)}
+               onCheckedChange={() => handleCheckboxChange(val)}   
+              />
+                </TableCell>
+
             <TableCell className={'flex items-center gap-3'}>
               <div className="h-8 w-8 rounded-full relative bg-[#8d8d8d] overflow-hidden">
                         {val.profilePictureUrl === "" ? (
-                          <Image src={'/assets/user profile.jpg'} fill className="object-cover absolute inset-0 w-full h-full" />
+                          <Image alt="profile picture" src={'/assets/user profile.jpg'} fill className="object-cover absolute inset-0 w-full h-full" />
                         ) : (
-                          <Image src={val.profilePictureUrl} fill className="object-cover absolute inset-0 w-full h-full" />
+                          <Image alt="profile picture" src={val.profilePictureUrl} fill className="object-cover absolute inset-0 w-full h-full" />
                         )}
                       </div>
                       {val.name}

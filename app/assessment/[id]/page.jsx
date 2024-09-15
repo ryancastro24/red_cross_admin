@@ -4,6 +4,9 @@ import axios from 'axios';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
 const Assessment = ({params}) => {
 
     const {id} = params;  
@@ -108,9 +111,12 @@ const Assessment = ({params}) => {
     <div className='flex flex-col gap-2'>
         <label className='text-2xl'>Basic First Aid Proficiency:</label>
 
+
+        <RadioGroup defaultValue="option-one">  
         <div className='flex items-center gap-5 '>
          
         <div>
+            <RadioGroupItem value="option-one" id="option-one" />
             <input type="radio" onChange={(e) => setAssessmentData({...assessmentData,firstAid:e.target.value}) } id="first-aid-excellent" name="first-aid" value="excellent"/>
             <label htmlFor="first-aid-excellent">Excellent</label>
         </div>
@@ -131,7 +137,12 @@ const Assessment = ({params}) => {
             <label htmlFor="first-aid-unsatisfactory">Unsatisfactory</label>
         </div>
         </div>
+
+        </RadioGroup>
+
+
     </div>
+
 
     <div className='flex flex-col gap-2'>
         <label className='text-2xl'>CPR and AED Use:</label>

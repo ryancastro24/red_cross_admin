@@ -10,7 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
+import { Label } from "@/components/ui/label"
+import CertifcateConatainer from './CertifcateConatainer';
 import {
   Select,
   SelectContent,
@@ -148,100 +149,65 @@ const handleDownload = (e) => {
   return (
     <>
 
-      <ToastContainer
-      position="top-center"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-      />
 
-<div
-        id="certificate"
-        style={{
-          width: '770px',
-          height: '570px',
-          margin: '0 auto',
-          padding: '20px',
-          border: '10px solid #ddd',
-          boxShadow: '0 0 20px rgba(0,0,0,0.15)',
-          textAlign: 'center',
-          backgroundColor: 'white',
-          position: 'absolute',
-          fontFamily: 'serif',
-          top:-1000
-        }}
-      >
-        <div
-          style={{
-            width: 'calc(100% - 40px)',
-            height: 'calc(100% - 40px)',
-            border: '5px solid #aaa',
-            padding: '20px',
-            position: 'absolute',
-            top: '20px',
-            left: '20px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <h1 style={{ fontSize: '2.5em', margin: '0' }}>Certificate of Achievement</h1>
-          <p style={{ fontSize: '1.25em', marginTop: '40px' }}>This certifies that</p>
-          <h2 style={{ fontSize: '2em', margin: '20px 0' }}>{userData.name.toUpperCase() || 'Your Name Here'}</h2>
-          <p style={{ fontSize: '1.25em' }}>has successfully completed the course</p>
-          <p style={{ fontSize: '1.5em', fontStyle: 'italic', margin: '40px 0' }}>Red Cross Cavite Graduate</p>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
-            <div>
-              <p>__________________________</p>
-              <p>Dr. Juan Dela Cruz</p>
-            </div>
-            <div>
-              <p>__________________________</p>
-              <p>Dr. Jane Doe</p>
-            </div>
-          </div>
-        </div>
-      </div>
+       <CertifcateConatainer name={userData.name}/>
         
        
         <form onSubmit={handleSubmit} className=' h-full w-full rounded p-5 grid grid-cols-2  gap-6 ' action="">
           <h2 className='text-[#100f0f] text-2xl col-span-2'>Enroll Trainee</h2>
+
+
+
+          <div className='flex flex-col gap-2'>
+          <Label htmlFor="orNumber">Or Number</Label>
 
             <Input
             value={userData.orNumber} 
             onChange={(e) => setUserData({...userData,orNumber:e.target.value})} 
             placeholder='Enter Or Number'
             />
+          </div>
 
+
+          <div className='flex flex-col gap-2'>
+          <Label htmlFor="name">Name</Label>
             <Input
             value={userData.name} 
             onChange={(e) => setUserData({...userData,name:e.target.value})} 
             placeholder='Enter Fullname'
             />
+          </div>
 
 
+          <div className='flex items-center gap-2'>
 
-<div className='flex items-center gap-2'>
+
+          <div  className='flex w-full flex-col gap-2'>
+          <Label htmlFor="email">Email</Label>
             <Input
             value={userData.email} 
             onChange={(e) => setUserData({...userData,email:e.target.value})} 
             placeholder='Enter Email'
-            />    
+            />
+
+            </div>    
 
 
-            
-         { !update &&  
-          <Input
-          value={userData.password} 
-          onChange={(e) => setUserData({...userData,password:e.target.value})} 
-          placeholder='Enter Password'
-          type="password"
-         />    
-  }
+
+          <div  className='flex w-full flex-col gap-2'>
+
+            <Label htmlFor="password">Password</Label>
+              
+          { !update &&  
+            <Input
+            value={userData.password} 
+            onChange={(e) => setUserData({...userData,password:e.target.value})} 
+            placeholder='Enter Password'
+            type="password"
+          />  
+          }
+
+          </div>
 
   </div>
 
@@ -249,33 +215,49 @@ const handleDownload = (e) => {
 
     <div className='flex items-center gap-2'>
 
-             <Select onValueChange={handleAddressChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Location" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Manila">Manila</SelectItem>
-                <SelectItem value="Cavite">Cavite</SelectItem>
-                <SelectItem value="Pasay">Pasay</SelectItem>
-              </SelectContent>
-            </Select>
+
+         <div  className='flex w-full flex-col gap-2'>
+            <Label htmlFor="location">Location</Label>
+
+                <Select onValueChange={handleAddressChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Manila">Manila</SelectItem>
+                    <SelectItem value="Cavite">Cavite</SelectItem>
+                    <SelectItem value="Pasay">Pasay</SelectItem>
+                  </SelectContent>
+                </Select>
+          </div>
 
 
 
-            <DatePicker date={date} setDate={setDate}/>
-      
+            <div  className='flex w-full flex-col gap-2'>
+                <Label htmlFor="dateStarted">Date Started</Label>
+                <DatePicker date={date} setDate={setDate}/>
+            </div>
+
     </div>
+    
 
           
     <div className='flex items-center gap-2'>
-              
+
+          <div  className='flex w-full flex-col gap-2'>
+            <Label htmlFor="contact">Contact Number</Label>
               <Input
               value={userData.contact} 
               onChange={(e) => setUserData({...userData,contact:e.target.value})} 
               placeholder='Enter Contact Number'
               />    
 
+          </div>
 
+
+          <div  className='flex w-full flex-col gap-2'>
+
+          <Label htmlFor="gender">Gender</Label>
             <Select onValueChange={handleGenderChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Gender" />
@@ -285,6 +267,7 @@ const handleDownload = (e) => {
                 <SelectItem value="female">Female</SelectItem>
               </SelectContent>
             </Select>
+            </div>
 
 
       </div>
@@ -294,6 +277,8 @@ const handleDownload = (e) => {
 
         
 
+            <div  className='flex w-full flex-col gap-2'>
+            <Label htmlFor="category">Category</Label>
 
             <Select onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-full">
@@ -304,11 +289,16 @@ const handleDownload = (e) => {
                 <SelectItem value="occupational">Occupational</SelectItem>
               </SelectContent>
             </Select>
+            </div>
 
 
+
+          <div  className='flex w-full flex-col gap-2'>
+          <Label htmlFor="downloadCert">Download Certificate</Label>
           <Button  asChild>
-            <button type='button' className='text-xl w-[90px] ' onClick={ handleDownload} ><MdCloudDownload/></button>
+            <button type='button' className='text-xl w-full ' onClick={ handleDownload} ><MdCloudDownload/></button>
           </Button>
+          </div>
            
             </div>
 
@@ -317,14 +307,16 @@ const handleDownload = (e) => {
 
 
 
+  <div  className='flex w-full flex-col gap-2'>
+  <Label htmlFor="uploadProfile">Upload Profile Picture</Label>
+  <Button className="border hover:bg-red-600 flex items-center justify-center h-24 border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" asChild>
 
         <UploadButton
         endpoint="imageUploader"
         appearance={{
           button: {
-            padding: "2rem",
-            color: "#000",
-            border: "0.1px solid gray"
+            padding: "8px",
+            color: "black",
           }
         }}
         onClientUploadComplete={(res) => {
@@ -341,10 +333,24 @@ const handleDownload = (e) => {
           alert(`ERROR! ${error.message}`);
         }}
       />
-            
+  </Button>
 
-            <UploadButton
+
+</div>
+
+
+
+<div  className='flex w-full flex-col gap-2'>
+<Label htmlFor="uploadCertficate">Upload Certificate</Label>
+  <Button className="border hover:bg-red-600 flex items-center justify-center h-24 border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" asChild>
+        <UploadButton
         endpoint="pdfUploader"
+        appearance={{
+          button: {
+            padding: "8px",
+            color: "black",
+          }
+        }}
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res[0].url);
@@ -359,6 +365,10 @@ const handleDownload = (e) => {
           alert(`ERROR! ${error.message}`);
         }}
       />
+
+  </Button>
+
+</div>
             
           <Button asChild>
             <button disabled={

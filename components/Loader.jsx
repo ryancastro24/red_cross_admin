@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 
-export default function Loader() {
+export default function Loader({color}) {
   useEffect(() => {
     async function getLoader() {
       const { ring } = await import('ldrs')
@@ -15,7 +15,7 @@ export default function Loader() {
   stroke="5"
   bg-opacity="0"
   speed="2" 
-  color="white" 
+  color={`${color || 'white'}`} 
 ></l-ring>
 }
 

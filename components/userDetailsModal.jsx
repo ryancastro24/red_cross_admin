@@ -12,7 +12,7 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 
-import { Button } from "@/components/ui/button"
+
 const UserDetailsModal = ({name,email,gender,category,orNumber,address,contact,id}) => {
   return (
     <Dialog>
@@ -26,12 +26,12 @@ const UserDetailsModal = ({name,email,gender,category,orNumber,address,contact,i
 
         <div className='w-44 h-44 rounded bg-[#dadada]'></div>
             <ul className='flex flex-col gap-1'>
-                <li><strong>Email:</strong> {email}</li>
-                <li><strong>Gender:</strong> {gender}</li>
-                <li><strong>Category:</strong> {category}</li>
-                <li><strong>Address:</strong> {address}</li>
-                <li><strong>OR Number:</strong> {orNumber}</li>
-                <li><strong>Contact Number:</strong> {contact}</li>
+                <li className='text-sm truncate'><strong>Email:</strong> {email}</li>
+                <li className='text-sm truncate'><strong>Gender:</strong> {gender}</li>
+                <li className='text-sm truncate'><strong>Category:</strong> {category}</li>
+                <li className='text-sm truncate'><strong>Address:</strong> {address}</li>
+                <li className='text-sm truncate'><strong>OR Number:</strong> {orNumber}</li>
+                <li className='text-sm truncate'><strong>Contact Number:</strong> {contact}</li>
             </ul>
 
         <div>

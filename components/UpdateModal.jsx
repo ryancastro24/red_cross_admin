@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
+
+
 const UpdateModal = ({ name, email, gender, address, contact, category, id }) => {
     const { toast } = useToast()
     const [loading,setLoading] = useState(false);
