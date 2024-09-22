@@ -26,12 +26,6 @@ import {
   
 
 
-const chartData = [
-  { location: "Butuan", standard: 222, occupational: 0 },
-  { location: "Cavite", standard: 97, occupational: 180 },
-  { location: "Manila", standard: 97, occupational: 180 },
-  
-]
 
 const chartConfig = {
   views: {

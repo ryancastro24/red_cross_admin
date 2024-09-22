@@ -11,6 +11,7 @@ import { RiUploadCloud2Fill } from "react-icons/ri";
 import { SideNavigationProvider } from '@/components/SideNavigationProvider'
 import Analytics from '@/components/Analytics'
 import { toast } from 'react-toastify';
+import InstructorsPage from '@/components/InstructorsPage'
 const Dashboard = () => {
 
 
@@ -79,6 +80,7 @@ const Dashboard = () => {
         {navigationData.navigation === "list" && <DataTable handleUnlockCertificate={handleUnlockCertificate}  handleDelete={handleDelete}/>}
         {navigationData.navigation === "analytics" && <Analytics  />}
         {navigationData.navigation === "archive" && <Archives  />}
+        {navigationData.navigation === "instructors" && <InstructorsPage  />}
 
     </div>
 

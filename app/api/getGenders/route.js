@@ -3,6 +3,9 @@ import prisma from '@/libs/prismaDB'
 
 export async function GET() {
   const genderCounts = await prisma.userInfo.groupBy({
+    where:{
+      userType:"user"
+    },
     by: ['gender'],
     _count: {
       gender: true,
