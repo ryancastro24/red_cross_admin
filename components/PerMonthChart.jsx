@@ -2,6 +2,11 @@
 
 import * as React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 import {
   Card,
@@ -37,6 +42,9 @@ const chartConfig = {
 export default function PerMonthChart() {
   const [activeChart, setActiveChart] = React.useState("standard");
   const [permonthData, setPermonthData] = React.useState([]); // Using the provided chart data
+  const [popoverVisible, setPopoverVisible] = React.useState(false);
+  const [popoverPosition, setPopoverPosition] = React.useState({ top: 0, left: 0 });
+  const [selectedBarData, setSelectedBarData] = React.useState(null); // Store the clicked bar data
 
   const total = React.useMemo(
     () => ({
@@ -45,6 +53,16 @@ export default function PerMonthChart() {
     }),
     [permonthData]
   );
+
+
+  const handleBarClick = (data, e) => {
+    const { clientX, clientY } = e; // Get the click position
+
+    // Set the position of the popover and store the selected bar data
+    setPopoverPosition({ top: clientY, left: clientX });
+    setSelectedBarData(data); // Set the bar data to display
+    setPopoverVisible(true); // Show the popover
+  };
 
 
 
@@ -67,6 +85,9 @@ export default function PerMonthChart() {
 
     getPermonthData(); // Call the function inside the useEffect
   },[])
+
+
+
 
 
 
@@ -143,15 +164,59 @@ export default function PerMonthChart() {
               }
             />
             <Bar
-              onClick={(data, index) =>
-                alert(`You clicked on ${activeChart} bar for month: ${data.month}`)
-              }
+              onClick={(data, index, e) => handleBarClick(data, e)} // Handle bar click
               className="cursor-pointer"
               dataKey={activeChart}
               fill={`var(--color-${activeChart})`}
             />
           </BarChart>
         </ChartContainer>
+         {/* Popover for showing bar details */}
+         {popoverVisible && (
+          <Popover open={popoverVisible} onOpenChange={setPopoverVisible}>
+            <PopoverTrigger asChild>
+              {/* Invisible trigger element */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: popoverPosition.top,
+                  left: popoverPosition.left,
+                  width: "1px",
+                  height: "1px",
+                }}
+              />
+            </PopoverTrigger>
+
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Trainee Data</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Details for {activeChart.charAt(0).toUpperCase() + activeChart.slice(1)} chart
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <label>Male</label>
+                    <p className="col-span-2">
+                      {activeChart === "standard"
+                        ? selectedBarData?.standardGender?.male || "N/A"
+                        : selectedBarData?.occupationalGender?.male || "N/A"}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <label>Female</label>
+                    <p className="col-span-2">
+                      {activeChart === "standard"
+                        ? selectedBarData?.standardGender?.female || "N/A"
+                        : selectedBarData?.occupationalGender?.female || "N/A"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+            </Popover>
+         )}
       </CardContent>
     </Card>
   );
