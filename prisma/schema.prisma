@@ -35,6 +35,8 @@ model UserInfo {
   password             String
   profilePictureUrl    String
   userType             String
+  ratings             ratings[]     // One-to-Many relation with ratings model    // One-to-Many relation with Rating
+
 }
 
 model choices {
@@ -97,5 +99,6 @@ model ratings {
   rate4        Int
   rate5        Int
   updatedAt    DateTime @db.Date
+  user         UserInfo? @relation(fields: [userId], references: [id]) // Define the relationship
   userId       String   @db.ObjectId
 }
