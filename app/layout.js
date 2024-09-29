@@ -10,7 +10,6 @@ import Sidebar from "@/components/Sidebar";
 import SideNavigationProviderComponent from "@/components/SideNavigationProvider";
 import SearchInputField from "@/components/SearchInputField";
 import SearchArrayProvider from "@/components/SearchArrayProvider";
-import Profile from "@/components/Profile";
 import { Toaster } from "@/components/ui/toaster"
 const poppins = Poppins({weight: ["100","200","300","400","500","600","700"],preload: false})
 

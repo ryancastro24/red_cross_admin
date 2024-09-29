@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import InstructorCardSkeleton from './InstructorCardSkeleton';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Progress } from "@/components/ui/progress"
 const InstructorsPage = () => {
 
   const [instructorRatings,setInstructorRatings] = useState([]);
@@ -36,9 +37,6 @@ const InstructorsPage = () => {
       }
     }
 
-  
-
-  
     getInstructorsRatings(); 
   },[])
 
@@ -156,6 +154,41 @@ const InstructorsPage = () => {
           </CardContent>
           </CardHeader>
 
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 1</span>
+                <Progress className='rounded h-2'  value={val.rate1 * 25} />
+              </div>
+          </CardContent>
+
+
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 2</span>
+                <Progress className='rounded h-2'  value={val.rate2 * 25} />
+              </div>
+          </CardContent>
+
+
+
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 3</span>
+                <Progress className='rounded h-2'  value={val.rate3 * 25} />
+              </div>
+          </CardContent>
+
+
+
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 4</span>
+                <Progress className='rounded h-2'  value={val.rate4 * 25} />
+              </div>
+          </CardContent>
+
+
+
 
           <CardFooter className="flex justify-between">
           
@@ -169,7 +202,36 @@ const InstructorsPage = () => {
           </CardHeader>
 
           <CardContent>
-            <span>content here...</span>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 1</span>
+                <Progress className='rounded h-2'  value={val.rate1 * 25} />
+              </div>
+          </CardContent>
+
+
+          <CardContent> 
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 2</span>
+                <Progress className='rounded h-2'  value={val.rate2 * 25} />
+              </div>
+          </CardContent>
+
+
+
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 3</span>
+                <Progress className='rounded h-2 '  value={val.rate3 * 25} />
+              </div>
+          </CardContent>
+
+
+
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm'>Rating 4</span>
+                <Progress className='rounded h-2'  value={val.rate4 * 25} />
+              </div>
           </CardContent>
 
 

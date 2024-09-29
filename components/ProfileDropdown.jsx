@@ -36,9 +36,9 @@ import { signOut} from 'next-auth/react'
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={signOut}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span onClick={signOut} >Log out</span>
+            <span  >Log out</span>
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>

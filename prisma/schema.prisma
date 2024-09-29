@@ -18,25 +18,24 @@ model UserAssessment {
 }
 
 model UserInfo {
-  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
-  v                    Int      @map("__v")
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  v                    Int       @map("__v")
   address              String
   category             String
   certificateUrl       String
-  certificatedApproved Boolean
+  certificatedApproved Boolean   @default(false)
   contact              String
-  dateCreated          DateTime @db.Date
+  dateCreated          DateTime  @default(now()) @db.Date
   dateEnded            String?
   dateStarted          String
-  email                String   @unique
+  email                String    @unique
   gender               String
   name                 String
   orNumber             String
   password             String
   profilePictureUrl    String
   userType             String
-  ratings             ratings[]     // One-to-Many relation with ratings model    // One-to-Many relation with Rating
-
+  ratings              ratings[] // One-to-Many relation with ratings model    // One-to-Many relation with Rating
 }
 
 model choices {
@@ -52,13 +51,13 @@ model instructors {
   v              Int      @map("__v")
   address        String
   contact        String
-  createdAt      DateTime @db.Date
+  createdAt      DateTime @default(now()) @db.Date
   email          String
   field          String
   gender         String
   name           String
   profilePicture String
-  updatedAt      DateTime @db.Date
+  updatedAt      DateTime @default(now()) @db.Date
 }
 
 model module_quiz {
@@ -76,7 +75,7 @@ model modules {
   createdAt  DateTime @db.Date
   moduleName String
   totalScore Int[]
-  updatedAt  DateTime @db.Date
+  updatedAt  DateTime @default(now()) @db.Date
   userId     String   @db.ObjectId
 }
 
@@ -89,16 +88,16 @@ model questions {
 }
 
 model ratings {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  v            Int      @map("__v")
-  createdAt    DateTime @db.Date
-  instructorId String?  @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int       @map("__v")
+  createdAt    DateTime  @default(now()) @db.Date
+  instructorId String?   @db.ObjectId
   rate1        Int
   rate2        Int
   rate3        Int
   rate4        Int
   rate5        Int
-  updatedAt    DateTime @db.Date
+  updatedAt    DateTime  @default(now()) @db.Date
   user         UserInfo? @relation(fields: [userId], references: [id]) // Define the relationship
-  userId       String   @db.ObjectId
+  userId       String    @db.ObjectId
 }

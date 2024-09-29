@@ -1,5 +1,5 @@
 "use client";
-
+import { Skeleton } from "@/components/ui/skeleton"
 import * as React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
@@ -45,7 +45,7 @@ export default function PerMonthChart() {
   const [popoverVisible, setPopoverVisible] = React.useState(false);
   const [popoverPosition, setPopoverPosition] = React.useState({ top: 0, left: 0 });
   const [selectedBarData, setSelectedBarData] = React.useState(null); // Store the clicked bar data
-
+  const [loading,setLoading] = React.useState(true);
   const total = React.useMemo(
     () => ({
       standard: permonthData.reduce((acc, curr) => acc + curr.standard, 0),
@@ -78,6 +78,7 @@ export default function PerMonthChart() {
         const data = await response.json(); // Assuming the API returns JSON data
         console.log(data);
         setPermonthData(data); // Set the state with the fetched data
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -92,6 +93,47 @@ export default function PerMonthChart() {
 
 
   return (
+
+    <>
+    {loading ? <>
+    
+
+      <div className="w-full h-72 flex-col  flex mb-16 justify-between px-10">
+         <div className="w-full flex justify-between">
+            <div className="flex flex-col gap-2">
+              <Skeleton className='w-80 h-6 bg-[#b7b7b7]'/>
+              <Skeleton className='w-80 h-2 bg-[#b7b7b7]'/>
+            </div>
+
+
+            <div className="flex items-end gap-2">
+              <Skeleton className='w-20 h-20 bg-[#b7b7b7]'/>
+              <Skeleton className='w-20 h-20 bg-[#b7b7b7]'/>
+            </div>
+         </div>
+         
+         <div className="w-full flex justify-between items-end">
+            <Skeleton className='w-16 rounded-none h-20 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-40 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-44 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-32 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-24 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-20 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-44 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-32 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-20 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-24 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-24 bg-[#b7b7b7]' />
+              <Skeleton className='w-16 rounded-none h-20 bg-[#b7b7b7]' />
+         </div>
+      </div>
+    
+    
+    </>  
+    
+    
+    
+    : 
     <Card className="w-full">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -219,5 +261,8 @@ export default function PerMonthChart() {
          )}
       </CardContent>
     </Card>
+}
+
+    </>
   );
 }
