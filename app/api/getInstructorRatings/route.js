@@ -6,6 +6,7 @@ export async function GET() {
     const ratings = await prisma.ratings.findMany({
       select: {
         instructorId: true,
+        userId: true, // Assuming there is a userId field in the ratings table
         rate1: true,
         rate2: true,
         rate3: true,
@@ -14,20 +15,24 @@ export async function GET() {
       },
     });
 
-    // Process the data to calculate the count of ratings for each instructor
+    // Process the data to calculate the count of ratings and unique users per instructor
     const instructorStats = {};
 
     ratings.forEach((rating) => {
-      const { instructorId, rate1, rate2, rate3, rate4, rate5 } = rating;
+      const { instructorId, userId, rate1, rate2, rate3, rate4, rate5 } = rating;
 
       // Initialize instructor entry if not already present
       if (!instructorStats[instructorId]) {
         instructorStats[instructorId] = {
           instructorId,
+          userIds: new Set(), // Use a Set to store unique user IDs
           ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, // Counts of each rating
           totalRatings: 0, // Total number of ratings
         };
       }
+
+      // Add the userId to the Set (automatically handles uniqueness)
+      instructorStats[instructorId].userIds.add(userId);
 
       // Check each rate, and if it's present, increment the respective rating count and the total number of ratings
       [rate1, rate2, rate3, rate4, rate5].forEach((rate) => {
@@ -52,7 +57,7 @@ export async function GET() {
         id: true,
         name: true,
         email: true,
-        field:true,
+        field: true,
         // Include other fields you need
       },
     });
@@ -64,7 +69,8 @@ export async function GET() {
       return {
         ...instructor, // Spread instructor details (e.g., name, email)
         ratings: stats.ratingCounts, // Add rating counts (how many 1s, 2s, etc.)
-        totalRatings: stats.totalRatings, // Add total number of all ratings
+        totalRatings: stats.totalRatings, // Add total number of all ratings (including all 1s, 2s, etc.)
+        userRatingCount: stats.userIds.size, // Total unique users who rated this instructor
       };
     });
 

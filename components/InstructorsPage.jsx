@@ -66,6 +66,29 @@ const InstructorsPage = () => {
     getAllUserRatings(); 
   },[instructorId])
 
+
+
+  const handleRatingRange = (rating, numberOfUsers) => {
+    console.log(`Rating: ${rating}, Number of Users: ${numberOfUsers}`);
+    
+    // Calculate the maximum possible ratings
+    const maxRating = 5 * numberOfUsers; 
+    console.log(`Max Rating: ${maxRating}`);
+  
+    // Calculate the final rating percentage
+    const finalRating = (rating / maxRating); 
+    const result = finalRating * 100; 
+  
+    // Use Math.floor() to remove decimals
+    const finalResult = Math.floor(result); 
+    
+    if(finalResult === 0) {
+      return 10;
+    }
+
+    return finalResult;
+  };
+
   return (
 
    <div className='h-[600px] overflow-auto w-full p-5'>
@@ -114,8 +137,46 @@ const InstructorsPage = () => {
          <CardDescription><strong>Email:</strong> {val.email}</CardDescription>
        </CardHeader>
        <CardContent>
-        <h2><strong>Total Ratings:</strong> {val.totalRatings}⭐</h2>
+        <h2><strong>Rate by :</strong> {val.userRatingCount} {val.userRatingCount === 1 ? "user" : "users"}</h2>
         
+
+        <div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="rating1">Rating 1 - {handleRatingRange(val.ratings["1"],val.userRatingCount)}%</label>
+            <Progress className='rounded h-2'   value={handleRatingRange(val.ratings["1"],val.userRatingCount)} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="rating1">Rating 2 - {handleRatingRange(val.ratings["2"],val.userRatingCount)}%</label>
+            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["2"],val.userRatingCount)} />
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="rating1">Rating 3 -{handleRatingRange(val.ratings["3"],val.userRatingCount)}%</label>
+            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["3"],val.userRatingCount)} />
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="rating1">Rating 4 - {handleRatingRange(val.ratings["4"],val.userRatingCount)}%</label>
+            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["4"],val.userRatingCount)} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="rating1">Rating 5 - {handleRatingRange(val.ratings["5"],val.userRatingCount)}%</label>
+            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["5"],val.userRatingCount)} />
+          </div>
+
+
+        </div>
+
+
+
+          <div>
+
+          </div>
        </CardContent>
        <CardFooter className="flex justify-between">
        

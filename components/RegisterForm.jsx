@@ -67,6 +67,7 @@ const handleGenderChange = (value) => {
 };
 
 
+
 const handleCategoryChange = (value) => {
   setUserData({...userData,category:value});
 };
@@ -337,7 +338,6 @@ const handleDownload = (e) => {
 
 
 </div>
-
 
 
 <div  className='flex w-full flex-col gap-2'>
