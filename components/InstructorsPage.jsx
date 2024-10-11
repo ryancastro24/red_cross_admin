@@ -89,11 +89,72 @@ const InstructorsPage = () => {
     return finalResult;
   };
 
+
+
+  // compare ratings 
+  const isLargestRating = (currentRatingKey, ratings) => {
+    const currentRating = ratings[currentRatingKey];
+    return Object.keys(ratings)
+      .filter(key => key !== currentRatingKey) // Exclude current rating
+      .every(key => currentRating > ratings[key]); // Check if it's greater than others
+  };
+
+
+
+  const getLabelForRating = (key) => {
+    switch (key) {
+      case "rate1":
+        return "Trainer's ability to explain the course material:";
+      case "rate2":
+        return "Engaging and Interactive learning material:";
+      case "rate3":
+        return "Handle questions and provide feedback during training:";
+      case "rate4":
+        return "Knowledgeable and confident in delivering the subject matter:";
+      case "rate5":
+        return "Adhere to the course objectives and training schedule:";
+      default:
+        return "";
+    }
+  };
+
+
+
+  const handleRatingLabel = (rating) => {
+
+    if (rating <= 10) {
+      return "Worst";
+    }
+    if (rating > 10 && rating < 25) {
+      return "Bad";
+    }
+    if (rating >= 25 && rating < 50) {
+      return "Neutral";
+    }
+    if (rating >= 50 && rating < 75) {
+      return "Good";
+    }
+    if (rating >= 75 && rating < 90) {
+      return "Very Good";
+    } else {
+      return "Excellent";
+    }
+  };
+  
+
+const getYear = () => {
+  const date =  new Date();
+  const year  = date.getFullYear()
+  return year;
+}
+
+
+
   return (
 
    <div className='h-[600px] overflow-auto w-full p-5'>
 
-
+<h1 className="mb-10 text-xl">Instructors {getYear()} Performance:</h1>
 {loading ? 
 
 
@@ -130,7 +191,7 @@ const InstructorsPage = () => {
       <Card onClick={() => {
         setInstructorId(val.id)
         setUserRatings(false)
-        }} key={val.id} className="w-[450px] cursor-pointer hover:bg-[#bababa]">
+        }} key={val.id} className="w-full cursor-pointer hover:bg-[#bababa]">
          <CardHeader>
          <CardTitle>{val.name}</CardTitle>
          <CardDescription><strong>Position:</strong> {val.field}</CardDescription>
@@ -140,34 +201,22 @@ const InstructorsPage = () => {
         <h2><strong>Rate by :</strong> {val.userRatingCount} {val.userRatingCount === 1 ? "user" : "users"}</h2>
         
 
-        <div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="rating1">Rating 1 - {handleRatingRange(val.ratings["1"],val.userRatingCount)}%</label>
-            <Progress className='rounded h-2'   value={handleRatingRange(val.ratings["1"],val.userRatingCount)} />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="rating1">Rating 2 - {handleRatingRange(val.ratings["2"],val.userRatingCount)}%</label>
-            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["2"],val.userRatingCount)} />
-          </div>
+        <div className="mt-10 flex flex-col gap-6">
 
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="rating1">Rating 3 -{handleRatingRange(val.ratings["3"],val.userRatingCount)}%</label>
-            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["3"],val.userRatingCount)} />
-          </div>
-
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="rating1">Rating 4 - {handleRatingRange(val.ratings["4"],val.userRatingCount)}%</label>
-            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["4"],val.userRatingCount)} />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="rating1">Rating 5 - {handleRatingRange(val.ratings["5"],val.userRatingCount)}%</label>
-            <Progress className='rounded h-2'  value={handleRatingRange(val.ratings["5"],val.userRatingCount)} />
-          </div>
+        {Object.keys(val.ratings).map((key, index) => (
+        <div className="flex flex-col gap-2" key={index}>
+          <label className="text-sm grid grid-cols-2" htmlFor={`rating${key}`}>
+            <span>{getLabelForRating(key)}</span>
+            <span
+              className={`flex justify-end w-full ${isLargestRating(key, val.ratings) ? "text-xl font-bold" : "text-emerald-950"}`}
+            >
+              {handleRatingRange(val.ratings[key], val.userRatingCount)}%  ({handleRatingLabel(handleRatingRange(val.ratings[key], val.userRatingCount))}) 
+            </span>
+          </label>
+          <Progress className="rounded h-2" value={handleRatingRange(val.ratings[key], val.userRatingCount)} />
+        </div>
+      ))}
 
 
         </div>
@@ -202,78 +251,37 @@ const InstructorsPage = () => {
           <div className='grid grid-cols-2 gap-10 '>
 
 
-            {allUserRatings.map(val =>  <Card key={val.id} className="w-[450px] cursor-pointer hover:bg-[#bababa]">
+            {allUserRatings.map(val =>  <Card key={val.id} className="w-full cursor-pointer hover:bg-[#bababa]">
        
         
 
-         {val.user == null ?   <>
-        
-          <CardHeader>
-          <CardContent>
-            
-            <span>User is not longer available</span>
-          </CardContent>
-          </CardHeader>
-
-          <CardContent>
-              <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 1</span>
-                <Progress className='rounded h-2'  value={val.rate1 * 25} />
-              </div>
-          </CardContent>
-
-
-          <CardContent>
-              <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 2</span>
-                <Progress className='rounded h-2'  value={val.rate2 * 25} />
-              </div>
-          </CardContent>
-
-
-
-          <CardContent>
-              <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 3</span>
-                <Progress className='rounded h-2'  value={val.rate3 * 25} />
-              </div>
-          </CardContent>
-
-
-
-          <CardContent>
-              <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 4</span>
-                <Progress className='rounded h-2'  value={val.rate4 * 25} />
-              </div>
-          </CardContent>
 
 
 
 
-          <CardFooter className="flex justify-between">
-          
-          </CardFooter> 
-          </>
-          : 
-         <>
            <CardHeader>
-          <CardTitle>{val.user.name}</CardTitle> 
-          <CardDescription><strong>Email:</strong> {val.user.email}</CardDescription>
+          
+          {val.user === null ?  <CardDescription><span>user not avaible anymore</span></CardDescription>
+           :
+           <>
+                <CardTitle>{val.user.name}</CardTitle> 
+                <CardDescription><strong>Email:</strong> {val.user.email}</CardDescription>
+          </>
+          } 
           </CardHeader>
 
           <CardContent>
               <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 1</span>
-                <Progress className='rounded h-2'  value={val.rate1 * 25} />
+                <span className='text-sm grid grid-cols-2 w-full'><span>Trainer's ability to explain the course material:</span> <span className="flex justify-end w-full items-center">{(val.rate1 * 10) * 2}%</span></span>
+                <Progress className='rounded h-2'  value={(val.rate1 * 10) * 2} />
               </div>
           </CardContent>
 
 
           <CardContent> 
               <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 2</span>
-                <Progress className='rounded h-2'  value={val.rate2 * 25} />
+                <span className='text-sm grid grid-cols-2 w-full'><span>Engaging and Interactive learning material:</span> <span className='flex justify-end items-center w-full'>{(val.rate2 * 10)* 2}%</span></span>
+                <Progress className='rounded h-2'  value={(val.rate2 * 10) * 2} />
               </div>
           </CardContent>
 
@@ -281,8 +289,8 @@ const InstructorsPage = () => {
 
           <CardContent>
               <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 3</span>
-                <Progress className='rounded h-2 '  value={val.rate3 * 25} />
+                <span className='text-sm grid grid-cols-2 w-full'><span>Handle questions and provide feedback during training:</span> <span className="flex justify-end items-center w-full">{(val.rate3 * 10) * 2}%</span></span>
+                <Progress className='rounded h-2 '  value={(val.rate3 * 10) * 2} />
               </div>
           </CardContent>
 
@@ -290,8 +298,17 @@ const InstructorsPage = () => {
 
           <CardContent>
               <div className='flex flex-col gap-1'>
-                <span className='text-sm'>Rating 4</span>
-                <Progress className='rounded h-2'  value={val.rate4 * 25} />
+                <span className='text-sm grid grid-cols-2 w-full'><span>Knowledgeable and confident in delivering the subject matter:</span> <span className='flex justify-end items-center w-full'>{(val.rate4 * 10) * 2}%</span></span>
+                <Progress className='rounded h-2'  value={(val.rate4 * 10) * 2} />
+              </div>
+          </CardContent>
+
+
+          
+          <CardContent>
+              <div className='flex flex-col gap-1'>
+                <span className='text-sm grid grid-cols-2 w-full'><span>Adhere to the course objectives and training schedule:</span> <span className='flex justify-end items-center w-full'>{(val.rate5 * 10) * 2}%</span></span>
+                <Progress className='rounded h-2'  value={(val.rate5 * 10) * 2 } />
               </div>
           </CardContent>
 
@@ -299,9 +316,7 @@ const InstructorsPage = () => {
           <CardFooter className="flex justify-between">
           
           </CardFooter>
-          </>
-         }
-        
+         
        
        
      </Card>)}

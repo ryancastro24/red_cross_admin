@@ -7,6 +7,7 @@ export async function GET() {
       select: {
         instructorId: true,
         userId: true, // Assuming there is a userId field in the ratings table
+        user: true, // To capture if the user field is null or not
         rate1: true,
         rate2: true,
         rate3: true,
@@ -15,7 +16,7 @@ export async function GET() {
       },
     });
 
-    // Process the data to calculate the count of ratings and unique users per instructor
+    // Process the data to calculate the sum of each rating (rate1, rate2, etc.) and unique users per instructor
     const instructorStats = {};
 
     ratings.forEach((rating) => {
@@ -26,21 +27,25 @@ export async function GET() {
         instructorStats[instructorId] = {
           instructorId,
           userIds: new Set(), // Use a Set to store unique user IDs
-          ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, // Counts of each rating
+          ratingCounts: { rate1: 0, rate2: 0, rate3: 0, rate4: 0, rate5: 0 }, // Sum of ratings
           totalRatings: 0, // Total number of ratings
         };
       }
 
       // Add the userId to the Set (automatically handles uniqueness)
-      instructorStats[instructorId].userIds.add(userId);
+      if (userId !== null) {
+        instructorStats[instructorId].userIds.add(userId);
+      }
 
-      // Check each rate, and if it's present, increment the respective rating count and the total number of ratings
-      [rate1, rate2, rate3, rate4, rate5].forEach((rate) => {
-        if (rate >= 1 && rate <= 5) { // Ensure it's a valid rating
-          instructorStats[instructorId].ratingCounts[rate] += 1; // Increment count for the specific rating
-          instructorStats[instructorId].totalRatings += 1; // Increment total rating count by 1
-        }
-      });
+      // Sum up individual ratings for each instructor
+      instructorStats[instructorId].ratingCounts.rate1 += rate1 || 0;
+      instructorStats[instructorId].ratingCounts.rate2 += rate2 || 0;
+      instructorStats[instructorId].ratingCounts.rate3 += rate3 || 0;
+      instructorStats[instructorId].ratingCounts.rate4 += rate4 || 0;
+      instructorStats[instructorId].ratingCounts.rate5 += rate5 || 0;
+
+      // Increment the total number of ratings for each instructor
+      instructorStats[instructorId].totalRatings += 5; // Since there are 5 ratings per user
     });
 
     // Get the list of instructorIds to fetch instructor details
@@ -66,17 +71,30 @@ export async function GET() {
     const rankedInstructors = instructorDetails.map((instructor) => {
       const stats = instructorStats[instructor.id];
 
+      console.log("new data",stats)
+
       return {
         ...instructor, // Spread instructor details (e.g., name, email)
-        ratings: stats.ratingCounts, // Add rating counts (how many 1s, 2s, etc.)
-        totalRatings: stats.totalRatings, // Add total number of all ratings (including all 1s, 2s, etc.)
-        userRatingCount: stats.userIds.size, // Total unique users who rated this instructor
+        ratings: stats.ratingCounts, // Add rating counts (sum of rate1, rate2, etc.)
+        totalRatings: stats.totalRatings, // Add total number of all ratings
+        userRatingCount: stats.userIds.size - 1, // Total unique users who rated this instructor
       };
     });
 
-    // Sort instructors by the number of 4 or 5 ratings, or by total rating
+    // Add the count of users where the `user` field is null but `userId` exists to userRatingCount
+    ratings.forEach((rating) => {
+      const { instructorId, userId, user } = rating;
+
+      // If user is null but userId exists, we increment the userRatingCount
+      if (user === null && userId !== null) {
+        rankedInstructors.find(inst => inst.id === instructorId).userRatingCount += 1;
+      }
+    });
+
+    // Optionally sort instructors by any criteria, for example, total ratings or a specific rating type
     rankedInstructors.sort(
-      (a, b) => b.ratings[4] + b.ratings[5] - (a.ratings[4] + a.ratings[5])
+      (a, b) => b.ratings.rate1 + b.ratings.rate2 + b.ratings.rate3 + b.ratings.rate4 + b.ratings.rate5
+        - (a.ratings.rate1 + a.ratings.rate2 + a.ratings.rate3 + a.ratings.rate4 + a.ratings.rate5)
     );
 
     // Return the ranked instructors as a response
@@ -89,3 +107,7 @@ export async function GET() {
     );
   }
 }
+
+
+
+
