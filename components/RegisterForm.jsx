@@ -73,22 +73,39 @@ const handleCategoryChange = (value) => {
 };
 
 
-
 const handleDownload = (e) => {
-
   e.stopPropagation();
   const input = document.getElementById('certificate');
 
   html2canvas(input).then((canvas) => {
     const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('landscape', 'pt', 'letter');
-    pdf.addImage(imgData, 'PNG', 20, 20, 770, 570);
+
+    // Create PDF with A4 size and portrait orientation
+    const pdf = new jsPDF('portrait', 'pt', 'a4');
+
+    // A4 size dimensions in points
+    const pdfWidth = 595.28;
+    const pdfHeight = 1123;
+
+    // Canvas width and height
+    const canvasWidth = 794;
+    const canvasHeight = canvas.height;
+
+    // Calculate the ratio of the canvas to A4 size
+    const ratio = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
+
+    // Calculate image dimensions for PDF
+    const imgWidth = canvasWidth * ratio;
+    const imgHeight = canvasHeight * ratio;
+
+    // Add image to the PDF
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+    // Save the PDF with the name of the user
     pdf.save(`${userData.name}.pdf`);
   });
-
-
-
 };
+
     
 
 
